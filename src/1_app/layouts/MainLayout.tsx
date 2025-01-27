@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Header from "../../3_widgets/Header";
 import Footer from "../../3_widgets/Footer";
 import Home from "../../2_pages/Home";
+import theme from "../ui/Theme";
 
 export default function MainLayout() {
   return (
@@ -23,4 +24,7 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-width: 1020px;
+  height: 100vh;
+  background: ${theme.guestBackground};
 `;
