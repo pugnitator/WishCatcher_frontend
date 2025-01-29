@@ -21,6 +21,7 @@ const ButtonWrap = styled.button`
     border: 2px solid #ffffff;
     border-radius: 10px;
     cursor: pointer;
+    color: inherit;
     font-family: 'Nunito Variable', monospace; 
     font-size: 18px;
 `

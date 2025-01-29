@@ -1,11 +1,20 @@
-import IUser from "./IUser"
+import IUser from "./IUser";
 
 interface UserInitialState {
-    currentUser: IUser | null,
-};
+  isLogin: boolean;
+  currentUser: IUser | null;
+}
 
 const userInitialState: UserInitialState = {
-    currentUser: null,
+  isLogin: false,
+  currentUser: null,
+  // isLogin: true,
+  // currentUser: {
+  //   id: "111",
+  //   login: "login",
+  //   name: "Ameli",
+  //   birthday: "10.11.1987",
+  // },
 };
 
 export default userInitialState;

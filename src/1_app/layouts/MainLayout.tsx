@@ -24,7 +24,9 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: 1020px;
+  min-width: 1220px;
+  max-width: 1920px;
   height: 100vh;
   background: ${theme.guestBackground};
+  border: none;
 `;

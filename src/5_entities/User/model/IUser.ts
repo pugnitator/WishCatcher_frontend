@@ -3,7 +3,7 @@ export default interface IUser {
     login: string;
     name: string;
     birthday: string;
-    friends: Array<string>;
+    friends?: Array<string>;
 }
 
 /*

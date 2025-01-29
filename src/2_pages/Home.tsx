@@ -8,30 +8,36 @@ export default function Home() {
     return (
         <Container>
             <GreetingContainer>
-                <h1>Помоги друзьям угадать с подарком</h1>
-                <p>Создавайте списки желаний, делитесь с близкими и выбирайте идеальные подарки для праздников</p>
+                <StyledH1>Помоги друзьям <br />угадать<br /> с подарком</StyledH1>
+                <TextContainer>
+                    <p>Создавай списки желаний, делись ими с близкими и выбирай идеальные подарки для праздников</p>
+                </TextContainer>
                 <CallToActionButton text='Создать свой вишлист!' onclick={()=> console.log('Хочу вишлист!')} />
             </GreetingContainer>
             <Picture src={HomeImg} alt='presents and balloons'/>
         </Container>
-    )
-        
+    )     
 };
-
 
 const Container = styled.div`
     display: flex;
     padding: 33px 12%;
     justify-content: space-between;
+    align-self: center;
+    max-width: 1080px;
 `;
 
-const GreetingContainer = styled.div`
+const GreetingContainer = styled.main`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 50px;
+    max-height: 500px;
     padding: 0 10px;
 `;
+
 const CallToActionButton = styled(Button)`
+    max-width: 60%;
     background-color: ${theme.mainActiveColor};
     border: none;
     color: white;
@@ -40,4 +46,16 @@ const CallToActionButton = styled(Button)`
 const Picture = styled.img`
     max-height: 500px;
     max-width: 500px;
+    opacity: 60%;
 `;
+
+const StyledH1 = styled.h1`
+    font-size: 56px;
+    color: ${theme.text.mainBlackColor};
+`
+
+const TextContainer = styled.div`
+    max-width: 60%;
+    color: ${theme.text.menuItemColor};
+    line-height: 120%;
+`

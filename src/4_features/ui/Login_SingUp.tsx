@@ -19,15 +19,19 @@ export default function LoginSignUp(prop: loginSignUpProp) {
 
 const Container = styled.div`
     display: flex;
-    justify-constent: space-between;
+    justify-content: space-between;
+    color: ${theme.text.activeMenuItemColor};
+    font-weight: 700;
 `
 
 const LoginButton = styled(Button)`
     background-color: ${theme.headerBackground};
+    font-weight: inherit;
 
 `
 const SignUpButton = styled(Button)`
     background-color: ${theme.headerBackground};
-    border-color: ${theme.mainActiveColor}
+    border-color: ${theme.mainActiveColor};
+    font-weight: inherit;
 
 `
