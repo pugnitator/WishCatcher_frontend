@@ -1,38 +1,55 @@
-import styled from "styled-components";
-import Logo from "../6_shared/ui/Logo";
-import MenuItem from "../6_shared/ui/menu/MenuItem";
-import LoginSignUp from "../4_features/ui/Login_SingUp";
-import { useState } from "react";
-import theme from "../1_app/ui/Theme";
-import { useSelector } from "react-redux";
-import { RootState } from "../5_entities/store";
-import { UserAction } from "../4_features/ui/UserAction";
+import styled from 'styled-components';
+import Logo from '../6_shared/ui/Logo';
+import MenuItem from '../6_shared/ui/menu/MenuItem';
+import theme from '../1_app/ui/Theme';
+import { useSelector } from 'react-redux';
+import { RootState } from '../5_entities/store';
+import { UserAction } from '../4_features/ui/UserAction';
+import Button from '../6_shared/ui/Button';
+import { useState } from 'react';
+import Modal from './modals/Modal';
+import LoginSignUpForm from './LoginSignUpForm';
 
 export default function Header() {
   const isUserLogin = useSelector((state: RootState) => state.user.isLogin);
 
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+  const [formType, setFormType] = useState('');
+
+  const onCloseModal = () => {
+    console.log(formType);
+    setFormType('');
+  };
 
   return (
     <HeaderContainer>
       <Logo />
       {isUserLogin && (
-        <nav>
-          <Menu>
-            <MenuItem text="Мой вишлист" path="/MyWishes" />
-            <MenuItem text="Друзья" path="/Friends" />
-            <MenuItem text="Дарю друзьям" path="/GivingToFriends" />
-          </Menu>
-        </nav>
+        <>
+          <nav>
+            <Menu>
+              <MenuItem text="Мой вишлист" path="/MyWishes" />
+              <MenuItem text="Друзья" path="/Friends" />
+              <MenuItem text="Дарю друзьям" path="/GivingToFriends" />
+            </Menu>
+          </nav>
+          <UserAction />
+        </>
       )}
+
       {!isUserLogin && (
-        <LoginSignUp
-          setIsLogin={() => setIsLoginModalOpen}
-          setIsSignUp={() => setIsSignUpModalOpen}
-        />
+        <LoginSignUpMenu>
+          <LoginButton text="Login" onClick={() => setFormType('login')} />
+          <SignUpButton text="Sign up" onClick={() => setFormType('signUp')} />
+        </LoginSignUpMenu>
       )}
-      {isUserLogin && <UserAction/>}
+
+      <Modal
+        isActive={Boolean(formType)}
+        closeModal={onCloseModal}
+        children={LoginSignUpForm({
+          formType: formType,
+        })}
+      />
     </HeaderContainer>
   );
 }
@@ -55,4 +72,22 @@ const Menu = styled.ul`
   display: flex;
   justify-content: space-between;
   list-style: none;
+`;
+
+const LoginSignUpMenu = styled.div`
+  display: flex;
+  justify-content: space-between;
+  color: ${theme.text.activeMenuItemColor};
+  font-weight: 700;
+`;
+
+const LoginButton = styled(Button)`
+  background-color: ${theme.headerBackground};
+  font-weight: inherit;
+`;
+
+const SignUpButton = styled(Button)`
+  background-color: ${theme.headerBackground};
+  border-color: ${theme.mainActiveColor};
+  font-weight: inherit;
 `;
