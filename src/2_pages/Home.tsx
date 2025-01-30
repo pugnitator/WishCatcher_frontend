@@ -12,7 +12,7 @@ export default function Home() {
                 <TextContainer>
                     <p>Создавай списки желаний, делись ими с близкими и выбирай идеальные подарки для праздников</p>
                 </TextContainer>
-                <CallToActionButton text='Создать свой вишлист!' onclick={()=> console.log('Хочу вишлист!')} />
+                <CallToActionButton text='Создать свой вишлист!' onClick={()=> console.log('Хочу вишлист!')} />
             </GreetingContainer>
             <Picture src={HomeImg} alt='presents and balloons'/>
         </Container>
