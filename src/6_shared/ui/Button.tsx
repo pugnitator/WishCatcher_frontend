@@ -1,16 +1,16 @@
 import styled from "styled-components";
 
-interface ButtonProp {
+export interface buttonProp {
     text: string;
-    onclick: () => void;
+    onClick: () => void;
     className?: 'string'
 }
 
-export default function Button(prop: ButtonProp) {
-    const {text, onclick, className} = prop;
+export default function Button(prop: buttonProp) {
+    const {text, onClick, className} = prop;
 
     return(
-        <ButtonWrap onClick={onclick} className={className}>{text}</ButtonWrap>
+        <ButtonWrap onClick={onClick} className={className}>{text}</ButtonWrap>
     )
 };
 
