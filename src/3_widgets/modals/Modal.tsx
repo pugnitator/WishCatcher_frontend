@@ -41,8 +41,8 @@ const ModalContent = styled.div`
   justify-content: center;
   align-items: center;
   padding: 30px;
-  min-width: 35vw;
-  min-height: 40vh;
+  width: clamp(300px, 41vw, 600px);
+  height: 400px;
   border-radius: 25px;
-  background-color: ${theme.listBackground};
+  background-color: ${theme.colorLightAlt};
 `;

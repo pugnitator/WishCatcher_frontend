@@ -1,17 +1,23 @@
-
-
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Nunito Variable', monospace;
-  line-height: 100%;
+  line-height: 1;
+  box-sizing: border-box;
 };
 
 body {
   height: 100%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Nunito Variable', monospace;
+  font-size: 18px;
+  font-weight: 400;
 };
+
+button,
+input,
+textarea {
+  color: inherit;
+  font-family: inherit;
+}
 
 a, a:hover {
   text-decoration: none;

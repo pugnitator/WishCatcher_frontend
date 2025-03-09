@@ -38,7 +38,7 @@ const GreetingContainer = styled.main`
 
 const CallToActionButton = styled(Button)`
     max-width: 60%;
-    background-color: ${theme.mainActiveColor};
+    background-color: ${theme.colorPurple};
     border: none;
     color: white;
 `;
@@ -51,11 +51,11 @@ const Picture = styled.img`
 
 const StyledH1 = styled.h1`
     font-size: 56px;
-    color: ${theme.text.mainBlackColor};
+    color: ${theme.colorDark};
 `
 
 const TextContainer = styled.div`
     max-width: 60%;
-    color: ${theme.text.menuItemColor};
+    color: ${theme.colorPurpleLigth};
     line-height: 120%;
 `
