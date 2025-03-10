@@ -60,7 +60,7 @@ const HeaderContainer = styled.header`
   padding: 0 12%;
   justify-content: space-between;
   align-items: center;
-  background-color: ${theme.headerBackground};
+  background-color: ${theme.colorLight};
   color: white;
   font-weight: 700;
   font-size: 18px;
@@ -77,17 +77,17 @@ const Menu = styled.ul`
 const LoginSignUpMenu = styled.div`
   display: flex;
   justify-content: space-between;
-  color: ${theme.text.activeMenuItemColor};
+  color: ${theme.colorPurpleLigth};
   font-weight: 700;
 `;
 
 const LoginButton = styled(Button)`
-  background-color: ${theme.headerBackground};
+  background-color: ${theme.colorLight};
   font-weight: inherit;
 `;
 
 const SignUpButton = styled(Button)`
-  background-color: ${theme.headerBackground};
-  border-color: ${theme.mainActiveColor};
+  background-color: ${theme.colorLight};
+  border-color: ${theme.colorPurple};
   font-weight: inherit;
 `;

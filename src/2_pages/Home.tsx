@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "../6_shared/ui/Button";
 import theme from "../1_app/ui/Theme";
-import HomeImg from "../6_shared/ui/images/guestBackgroundImg.svg"
+import HomeImg from "../assets/images/guestBackgroundImg.svg"
 
 export default function Home() {
 
@@ -38,7 +38,7 @@ const GreetingContainer = styled.main`
 
 const CallToActionButton = styled(Button)`
     max-width: 60%;
-    background-color: ${theme.mainActiveColor};
+    background-color: ${theme.colorPurple};
     border: none;
     color: white;
 `;
@@ -50,12 +50,12 @@ const Picture = styled.img`
 `;
 
 const StyledH1 = styled.h1`
-    font-size: 56px;
-    color: ${theme.text.mainBlackColor};
+    /* font-size: 56px; */
+    color: ${theme.colorDark};
 `
 
 const TextContainer = styled.div`
     max-width: 60%;
-    color: ${theme.text.menuItemColor};
+    color: ${theme.colorPurpleLigth};
     line-height: 120%;
 `

@@ -10,39 +10,38 @@ interface loginSignUpModalProp {
 export default function LoginSignUpForm(prop: loginSignUpModalProp) {
   const { formType } = prop;
   console.log('Я в форме', formType);
-  const formProp = formType === 'login' ? {title: 'Вход', buttonText: 'Войти'} 
-  : formType === 'signUp' ? {title: 'Регистрация', buttonText: 'Зарегистрироваться'} : null
-
+  const formProp =
+    formType === 'login'
+      ? { title: 'Вход', buttonText: 'Войти' }
+      : formType === 'signUp'
+      ? { title: 'Регистрация', buttonText: 'Зарегистрироваться' }
+      : null;
 
   return (
-    formType && formProp && <StyledForm>
-        <h2>
-          {formProp.title}
-        </h2>
+    formType &&
+    formProp && (
+      <StyledForm>
+        <h2>{formProp.title}</h2>
         <Input title="Логин" />
         <Input title="Пароль" inputType="password" />
-        <ButtonContainer>
           <Button
             text={formProp.buttonText}
             onClick={() => console.log('Войти')}
           />
-        </ButtonContainer>
       </StyledForm>
+    )
   );
 }
 
 const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 30px;
-  min-width: 35vw;
-  min-height: 40vh;
-  border-radius: 25px;
-  background-color: ${theme.listBackground};
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: start;
+  // gap: 50px;
+  // padding: 30px;
+  // width: clamp(300px, 41vw, 600px)
+  // height: 400px;
+  // border-radius: 25px;
+  // background-color: ${theme.colorLightAlt};
 `;

@@ -23,15 +23,15 @@ const Item = styled.li`
 
 const StyledLink = styled(NavLink)`
     text-decoration: none;
-    color: ${theme.text.menuItemColor};
+    color: ${theme.colorPurpleLigth};
     font-size: 18px;
 
     &.active {
-        color: ${theme.text.activeMenuItemColor};
+        color: ${theme.colorPurpleLigth};
     }
 
     &:hover {
-        color: ${theme.text.activeMenuItemColor};
+        color: ${theme.colorPurpleLigth};
         cursor: pointer;
     }
 `
