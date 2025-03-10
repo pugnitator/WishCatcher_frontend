@@ -1,4 +1,4 @@
-import LogoImg from './images/logoWishCatcher.svg';
+import LogoImg from '../../assets/images/logoWishCatcher.svg';
 
 export default function Logo() {
     return (

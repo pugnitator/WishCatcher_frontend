@@ -1,8 +1,6 @@
-import { Provider } from "react-redux";
-import "./App.css";
-import MainLayout from "./layouts/MainLayout";
-import store from "../5_entities/store";
-
+import { Provider } from 'react-redux';
+import MainLayout from './layouts/MainLayout';
+import store from '../5_entities/store';
 
 function App() {
   return (

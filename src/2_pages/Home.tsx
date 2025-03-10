@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "../6_shared/ui/Button";
 import theme from "../1_app/ui/Theme";
-import HomeImg from "../6_shared/ui/images/guestBackgroundImg.svg"
+import HomeImg from "../assets/images/guestBackgroundImg.svg"
 
 export default function Home() {
 
@@ -50,7 +50,7 @@ const Picture = styled.img`
 `;
 
 const StyledH1 = styled.h1`
-    font-size: 56px;
+    /* font-size: 56px; */
     color: ${theme.colorDark};
 `
 

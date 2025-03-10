@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../5_entities/store";
 import styled from "styled-components";
-import userIcon from "../../../src/6_shared/ui/icons/womanUserIcon.svg";
+import userIcon from "../../assets/icons/womanUserIcon.svg";
 import theme from "../../1_app/ui/Theme";
 
 export function UserAction() {

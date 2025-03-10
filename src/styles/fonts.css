@@ -1,0 +1,9 @@
+
+
+@font-face {
+  font-family: 'RobotoSlab', sans-serif;
+  src: url('../assets/fonts/RobotoSlab-Medium.ttf') format('ttf');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
