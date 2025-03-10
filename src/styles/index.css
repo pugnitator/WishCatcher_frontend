@@ -1,5 +1,5 @@
-@import '../src/styles/normalize.css';
-@import '../src/styles/fonts.css';
+@import './normalize.css';
+@import './fonts.css';
 /* @import '../src/styles/variables.css'; */
 
 * {
@@ -8,7 +8,7 @@
 }
 
 body {
-  font-family: 'RobotoSlab', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 18px;
   font-weight: 500;
 }
@@ -19,9 +19,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'RobotoSlab', sans-serif;
-  /* font-weight: 700; */
-  font-weight: 500;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
 }
 
 button,

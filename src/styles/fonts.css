@@ -1,9 +1,15 @@
-
+@font-face {
+  font-family: 'Nunito';
+  src: url('/public/fonts/Nunito-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
 
 @font-face {
-  font-family: 'RobotoSlab', sans-serif;
-  src: url('../assets/fonts/RobotoSlab-Medium.ttf') format('ttf');
-  font-weight: 500;
+  font-family: 'Nunito';
+  src: url('/public/fonts/Nunito-Bold.woff2') format('woff2');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
