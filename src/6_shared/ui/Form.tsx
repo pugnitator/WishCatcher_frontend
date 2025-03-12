@@ -21,7 +21,6 @@ export default function Form({
   return (
     <StyledForm>
       <h2>{title}</h2>
-      <CloseButton />
       <InputsWrap>
         {inputsList.map((item, index) => (
           <Input
@@ -54,7 +53,6 @@ const InputsWrap = styled.div`
 `;
 
 const StyledForm = styled.form`
-  position: relative;
   height: 100%;
   width: 100%;
 

@@ -3,9 +3,13 @@ import Button from './Button';
 import closeIcon from '../../../assets/icons/closeIcon.svg';
 import { buttonColors } from './Button';
 
-export default function CloseButton() {
+interface CloseButtonProps {
+  onClick: () => void;
+}
+
+export default function CloseButton({ onClick }: CloseButtonProps) {
   return (
-    <Wraper isLink={false} btnColor={buttonColors.white}>
+    <Wraper isLink={false} btnColor={buttonColors.white} onClick={onClick}>
       <img
         src={closeIcon}
         alt="Close button"
@@ -19,8 +23,8 @@ export default function CloseButton() {
 
 const Wraper = styled(Button)`
   position: absolute;
-  right: 0px;
-  top: 3px;
+  right: 25px;
+  top: 25px;
 
   width: fit-content;
   height: fit-content;

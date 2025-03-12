@@ -5,20 +5,32 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../5_entities/store';
 import { UserAction } from '../4_features/ui/UserAction';
 import Button from '../6_shared/ui/Buttons/Button';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Modal from './modals/Modal';
 import LoginForm from './LoginForm';
 import { buttonColors } from '../6_shared/ui/Buttons/Button';
+import { AppContext } from '../1_app/App';
 
 export default function Header() {
-  const isUserLogin = useSelector((state: RootState) => state.user.isLogin);
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error('AppContext null');
+  }
 
+  const isUserLogin = useSelector((state: RootState) => state.user.isLogin);
   //true - вход, false - регистрация
   const [formType, setFormType] = useState<boolean | null>(null);
+  const { isModalActive, setIsModalActive } = context;
+
+  const openModal = (type: boolean) => {
+    setFormType(type);
+    setIsModalActive(true);
+  };
 
   const onCloseModal = () => {
-    console.log(formType);
     setFormType(null);
+    setIsModalActive(false);
+    console.log('закрыть модалку');
   };
 
   return (
@@ -42,23 +54,23 @@ export default function Header() {
           <LoginButton
             isLink={false}
             text="Войти"
-            onClick={() => setFormType(true)}
+            onClick={() => openModal(true)}
             btnColor={buttonColors.white}
           />
           <SignUpButton
             isLink={false}
             text="Зарегистрироваться"
-            onClick={() => setFormType(false)}
+            onClick={() => openModal(false)}
             btnColor={buttonColors.white}
           />
         </LoginSignUpMenu>
       )}
 
       <Modal
-        isActive={formType !== null}
+        isActive={isModalActive}
         closeModal={onCloseModal}
-        //TODO: как-то поправить или true
-        children={LoginForm(formType ?? true)}
+        //TODO: как-то поправить или false
+        children={LoginForm(formType ?? false)}
       />
     </HeaderContainer>
   );

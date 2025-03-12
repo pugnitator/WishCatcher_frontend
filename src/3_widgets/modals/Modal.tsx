@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import theme from '../../1_app/ui/Theme';
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, useContext } from 'react';
 import { createPortal } from 'react-dom';
+import CloseButton from '../../6_shared/ui/Buttons/CloseButton';
+import { AppContext } from '../../1_app/App';
 
 interface ModalProp {
   isActive: boolean;
@@ -14,7 +15,8 @@ export default function Modal({ isActive, closeModal, children }: ModalProp) {
 
   return createPortal(
     <ModalConteiner onClick={closeModal}>
-      <ModalContent onClick={(e: SyntheticEvent) => e.stopPropagation}>
+      <ModalContent onClick={(e: SyntheticEvent) => e.stopPropagation()}>
+        <CloseButton onClick={closeModal}/>
         {children}
       </ModalContent>
     </ModalConteiner>,
@@ -36,6 +38,7 @@ const ModalConteiner = styled.div`
 `;
 
 const ModalContent = styled.div`
+position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,5 +46,5 @@ const ModalContent = styled.div`
   padding: 30px;
   width: clamp(300px, 41vw, 600px);
   border-radius: 25px;
-  background-color: ${theme.colorLightAlt};
+  background-color: var(--color-light-alt);
 `;

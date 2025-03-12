@@ -2,8 +2,10 @@ import { useState } from 'react';
 import Form from '../6_shared/ui/Form';
 import styled from 'styled-components';
 
-export default function LoginSignUpForm(isLogin: boolean) {
+export default function LoginForm(isLogin: boolean) {
   const [isLoginForm, setIsLoginForm] = useState(isLogin);
+
+  console.log('я в форме', isLogin);
   
   const formProp = isLogin
     ? { title: 'Вход', buttonText: 'Войти' }
