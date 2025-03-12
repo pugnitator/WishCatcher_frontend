@@ -1,23 +1,24 @@
 import styled from 'styled-components';
 import Logo from '../6_shared/ui/Logo';
 import MenuItem from '../6_shared/ui/menu/MenuItem';
-import theme from '../1_app/ui/Theme';
 import { useSelector } from 'react-redux';
 import { RootState } from '../5_entities/store';
 import { UserAction } from '../4_features/ui/UserAction';
-import Button from '../6_shared/ui/Button';
+import Button from '../6_shared/ui/Buttons/Button';
 import { useState } from 'react';
 import Modal from './modals/Modal';
-import LoginSignUpForm from './LoginSignUpForm';
+import LoginForm from './LoginForm';
+import { buttonColors } from '../6_shared/ui/Buttons/Button';
 
 export default function Header() {
   const isUserLogin = useSelector((state: RootState) => state.user.isLogin);
 
-  const [formType, setFormType] = useState('');
+  //true - вход, false - регистрация
+  const [formType, setFormType] = useState<boolean | null>(null);
 
   const onCloseModal = () => {
     console.log(formType);
-    setFormType('');
+    setFormType(null);
   };
 
   return (
@@ -38,17 +39,26 @@ export default function Header() {
 
       {!isUserLogin && (
         <LoginSignUpMenu>
-          <LoginButton text="Login" onClick={() => setFormType('login')} />
-          <SignUpButton text="Sign up" onClick={() => setFormType('signUp')} />
+          <LoginButton
+            isLink={false}
+            text="Войти"
+            onClick={() => setFormType(true)}
+            btnColor={buttonColors.white}
+          />
+          <SignUpButton
+            isLink={false}
+            text="Зарегистрироваться"
+            onClick={() => setFormType(false)}
+            btnColor={buttonColors.white}
+          />
         </LoginSignUpMenu>
       )}
 
       <Modal
-        isActive={Boolean(formType)}
+        isActive={formType !== null}
         closeModal={onCloseModal}
-        children={LoginSignUpForm({
-          formType: formType,
-        })}
+        //TODO: как-то поправить или true
+        children={LoginForm(formType ?? true)}
       />
     </HeaderContainer>
   );
@@ -56,38 +66,41 @@ export default function Header() {
 
 const HeaderContainer = styled.header`
   display: flex;
-  height: 100px;
-  padding: 0 12%;
   justify-content: space-between;
   align-items: center;
-  background-color: ${theme.colorLight};
-  color: white;
+  width: 100%;
+  height: 80px;
+  padding-inline: var(--padding-inline);
+
+  background-color: var(--color-light);
+  color: var(--color-purple);
   font-weight: 700;
   font-size: 18px;
 `;
 
 const Menu = styled.ul`
-  margin: 0;
-  padding: 0;
   display: flex;
-  justify-content: space-between;
-  list-style: none;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
 `;
 
 const LoginSignUpMenu = styled.div`
   display: flex;
-  justify-content: space-between;
-  color: ${theme.colorPurpleLigth};
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
   font-weight: 700;
 `;
 
 const LoginButton = styled(Button)`
-  background-color: ${theme.colorLight};
-  font-weight: inherit;
+  &:hover {
+    background-color: inherit;
+    color: var(--color-purple-light);
+  }
 `;
 
-const SignUpButton = styled(Button)`
-  background-color: ${theme.colorLight};
-  border-color: ${theme.colorPurple};
-  font-weight: inherit;
+const SignUpButton = styled(LoginButton)`
+  border: var(--border);
+  border-color: var(--color-purle);
 `;

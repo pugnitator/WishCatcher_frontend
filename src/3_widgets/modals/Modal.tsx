@@ -42,7 +42,6 @@ const ModalContent = styled.div`
   align-items: center;
   padding: 30px;
   width: clamp(300px, 41vw, 600px);
-  height: 400px;
   border-radius: 25px;
   background-color: ${theme.colorLightAlt};
 `;
