@@ -5,11 +5,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../5_entities/store';
 import { UserAction } from '../4_features/ui/UserAction';
 import Button from '../6_shared/ui/Buttons/Button';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import Modal from './modals/Modal';
-import LoginForm from './LoginForm';
 import { buttonColors } from '../6_shared/ui/Buttons/Button';
 import { AppContext } from '../1_app/App';
+import { LoginSignUpForm } from './LoginSignUpForm';
 
 export default function Header() {
   const context = useContext(AppContext);
@@ -17,18 +17,19 @@ export default function Header() {
     throw new Error('AppContext null');
   }
 
+  const { isModalActive, setIsModalActive, setIsLoginForm } = context;
   const isUserLogin = useSelector((state: RootState) => state.user.isLogin);
-  //true - вход, false - регистрация
-  const [formType, setFormType] = useState<boolean | null>(null);
-  const { isModalActive, setIsModalActive } = context;
+  // const isUserLogin = true;
+  console.log('isUserLogin', isUserLogin)
 
   const openModal = (type: boolean) => {
-    setFormType(type);
+    setIsLoginForm(type);
     setIsModalActive(true);
+    console.log('открыть модалку');
   };
 
   const onCloseModal = () => {
-    setFormType(null);
+    setIsLoginForm(null);
     setIsModalActive(false);
     console.log('закрыть модалку');
   };
@@ -48,7 +49,6 @@ export default function Header() {
           <UserAction />
         </>
       )}
-
       {!isUserLogin && (
         <LoginSignUpMenu>
           <LoginButton
@@ -66,12 +66,11 @@ export default function Header() {
         </LoginSignUpMenu>
       )}
 
-      <Modal
-        isActive={isModalActive}
-        closeModal={onCloseModal}
-        //TODO: как-то поправить или false
-        children={LoginForm(formType ?? false)}
-      />
+        <Modal
+          isActive={isModalActive}
+          closeModal={onCloseModal}
+          children={LoginSignUpForm()}
+        />
     </HeaderContainer>
   );
 }
@@ -87,7 +86,6 @@ const HeaderContainer = styled.header`
   background-color: var(--color-light);
   color: var(--color-purple);
   font-weight: 700;
-  font-size: 18px;
 `;
 
 const Menu = styled.ul`

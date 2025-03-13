@@ -36,4 +36,5 @@ const Layout = styled.div<LayoutProp>`
   height: 100vh;
   background: ${prop => prop.isLogin ? `var(--bg-color-user)` : `var(--bg-color-guest)`};
   border: none;
+  /* overflow-x: hidden; */
 `;

@@ -11,6 +11,7 @@ interface ModalProp {
 }
 
 export default function Modal({ isActive, closeModal, children }: ModalProp) {
+  console.log('в модалке', isActive);
   if (!isActive) return null;
 
   return createPortal(
@@ -29,7 +30,7 @@ const ModalConteiner = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   top: 0;

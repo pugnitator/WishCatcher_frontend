@@ -11,7 +11,7 @@ export default function Home() {
   if (!context) {
     throw new Error('AppContext null');
   }
-  const { isModalActive, setIsModalActive } = context;
+  const { setIsModalActive } = context;
   return (
     <Container>
       <GreetingContainer>
@@ -25,7 +25,7 @@ export default function Home() {
           Создавай списки желаний, делись ими <br />с близкими и выбирай
           идеальные подарки для праздников
         </TextContainer>
-        <CallToActionButton
+        <Button
           isLink={false}
           text="Создать свой вишлист!"
           onClick={() => setIsModalActive(true)}
@@ -42,6 +42,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   gap: clamp(30px, 6.25vw, 90px);
+  
   width: var(--content-container-width);
 `;
 
@@ -54,9 +55,6 @@ const GreetingContainer = styled.main`
   max-height: 500px;
 `;
 
-const CallToActionButton = styled(Button)`
-  /* border: none; */
-`;
 
 const Picture = styled.img`
   width: clamp(350px, 39vw, 500px);

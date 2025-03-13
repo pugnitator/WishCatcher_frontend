@@ -36,4 +36,8 @@ const Wraper = styled(Button)`
     opacity: 0.7;
     background-color: transparent;
   }
+
+  &:focus{
+    border-radius: 0;
+  }
 `;

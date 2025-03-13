@@ -15,5 +15,5 @@ const StyledFooter = styled.footer`
     padding: 0 0 20px 0;
     color: ${theme.colorPurpleLigth};
     font-weight: 600;
-    font-size: 18px;
+    max-width: 100vw;
 `

@@ -13,21 +13,23 @@ export const buttonColors = {
 
 export interface buttonProp {
   isLink: boolean,
-  path?: string,
+  link?: string,
   text?: string,
   onClick?: () => void,
   isSubmit?: boolean;
+  isDisabled?: boolean;
   className?: string,
   children?: React.ReactNode,
   btnColor: ButtonColor,
+  ref?: React.RefObject<null>,
 }
 
 export default function Button(prop: buttonProp) {
-  const { isLink, path, text, onClick, className, children, isSubmit, btnColor } = prop;
+  const { isLink, link, text, onClick, className, children, isSubmit, btnColor } = prop;
   const {color, bg} = btnColor;
 
   return isLink ? (
-    <LinkWrap href={path} target="_blank">
+    <LinkWrap href={link} target="_blank">
       <ButtonWrap color={color} bg={bg} type='button'>{children ?? text}</ButtonWrap>
     </LinkWrap>
   ) : (

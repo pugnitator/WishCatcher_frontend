@@ -27,6 +27,6 @@
   --border-radius: 10px;
   --border-radius-large: 25px;
 
-  --content-container-width: clamp(740px, 69.4vw, 1000px);
-  --form-container-width: clamp(360px, calc(48.6vw - var(--padding-inline)) ,700px);
+  --content-container-width: clamp(750px, 78.13vw, 1000px);
+  --form-container-width: clamp(360px, 48.6vw, 700px);
 }
