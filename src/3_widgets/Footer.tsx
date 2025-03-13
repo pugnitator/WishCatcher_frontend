@@ -13,7 +13,7 @@ export default function Footer() {
 const StyledFooter = styled.footer`
     text-align: center;
     padding: 0 0 20px 0;
-    color: ${theme.text.activeMenuItemColor};
+    color: ${theme.colorPurpleLigth};
     font-weight: 600;
-    font-size: 18px;
+    max-width: 100vw;
 `

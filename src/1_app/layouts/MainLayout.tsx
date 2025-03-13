@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 import { Route, Routes } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../5_entities/store';
 import Header from '../../3_widgets/Header';
 import Footer from '../../3_widgets/Footer';
 import Home from '../../2_pages/Home';
-import theme from '../ui/Theme';
 
 export default function MainLayout() {
+  const isUserLogin = useSelector((state: RootState) => state.user.isLogin)
+  console.log(isUserLogin);
   return (
-    <Layout>
-      <Header/>
+    <Layout isLogin={isUserLogin}>
+      <Header/> 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/MyWishes" element={<Home />} />
@@ -20,13 +23,18 @@ export default function MainLayout() {
   );
 }
 
-const Layout = styled.div`
+interface LayoutProp {
+  isLogin: boolean;
+}
+
+const Layout = styled.div<LayoutProp>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: 1220px;
-  max-width: 1920px;
+  align-items: center;
+  width: 100%;
   height: 100vh;
-  background: ${theme.guestBackground};
+  background: ${prop => prop.isLogin ? `var(--bg-color-user)` : `var(--bg-color-guest)`};
   border: none;
+  /* overflow-x: hidden; */
 `;

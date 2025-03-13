@@ -1,23 +1,37 @@
 import styled from 'styled-components';
 import Logo from '../6_shared/ui/Logo';
 import MenuItem from '../6_shared/ui/menu/MenuItem';
-import theme from '../1_app/ui/Theme';
 import { useSelector } from 'react-redux';
 import { RootState } from '../5_entities/store';
 import { UserAction } from '../4_features/ui/UserAction';
-import Button from '../6_shared/ui/Button';
-import { useState } from 'react';
+import Button from '../6_shared/ui/Buttons/Button';
+import { useContext } from 'react';
 import Modal from './modals/Modal';
-import LoginSignUpForm from './LoginSignUpForm';
+import { buttonColors } from '../6_shared/ui/Buttons/Button';
+import { AppContext } from '../1_app/App';
+import { LoginSignUpForm } from './LoginSignUpForm';
 
 export default function Header() {
-  const isUserLogin = useSelector((state: RootState) => state.user.isLogin);
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error('AppContext null');
+  }
 
-  const [formType, setFormType] = useState('');
+  const { isModalActive, setIsModalActive, setIsLoginForm } = context;
+  const isUserLogin = useSelector((state: RootState) => state.user.isLogin);
+  // const isUserLogin = true;
+  console.log('isUserLogin', isUserLogin)
+
+  const openModal = (type: boolean) => {
+    setIsLoginForm(type);
+    setIsModalActive(true);
+    console.log('открыть модалку');
+  };
 
   const onCloseModal = () => {
-    console.log(formType);
-    setFormType('');
+    setIsLoginForm(null);
+    setIsModalActive(false);
+    console.log('закрыть модалку');
   };
 
   return (
@@ -35,59 +49,68 @@ export default function Header() {
           <UserAction />
         </>
       )}
-
       {!isUserLogin && (
         <LoginSignUpMenu>
-          <LoginButton text="Login" onClick={() => setFormType('login')} />
-          <SignUpButton text="Sign up" onClick={() => setFormType('signUp')} />
+          <LoginButton
+            isLink={false}
+            text="Войти"
+            onClick={() => openModal(true)}
+            btnColor={buttonColors.white}
+          />
+          <SignUpButton
+            isLink={false}
+            text="Зарегистрироваться"
+            onClick={() => openModal(false)}
+            btnColor={buttonColors.white}
+          />
         </LoginSignUpMenu>
       )}
 
-      <Modal
-        isActive={Boolean(formType)}
-        closeModal={onCloseModal}
-        children={LoginSignUpForm({
-          formType: formType,
-        })}
-      />
+        <Modal
+          isActive={isModalActive}
+          closeModal={onCloseModal}
+          children={LoginSignUpForm()}
+        />
     </HeaderContainer>
   );
 }
 
 const HeaderContainer = styled.header`
   display: flex;
-  height: 100px;
-  padding: 0 12%;
   justify-content: space-between;
   align-items: center;
-  background-color: ${theme.headerBackground};
-  color: white;
+  width: 100%;
+  height: 80px;
+  padding-inline: var(--padding-inline);
+
+  background-color: var(--color-light);
+  color: var(--color-purple);
   font-weight: 700;
-  font-size: 18px;
 `;
 
 const Menu = styled.ul`
-  margin: 0;
-  padding: 0;
   display: flex;
-  justify-content: space-between;
-  list-style: none;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
 `;
 
 const LoginSignUpMenu = styled.div`
   display: flex;
-  justify-content: space-between;
-  color: ${theme.text.activeMenuItemColor};
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
   font-weight: 700;
 `;
 
 const LoginButton = styled(Button)`
-  background-color: ${theme.headerBackground};
-  font-weight: inherit;
+  &:hover {
+    background-color: inherit;
+    color: var(--color-purple-light);
+  }
 `;
 
-const SignUpButton = styled(Button)`
-  background-color: ${theme.headerBackground};
-  border-color: ${theme.mainActiveColor};
-  font-weight: inherit;
+const SignUpButton = styled(LoginButton)`
+  border: var(--border);
+  border-color: var(--color-purle);
 `;
