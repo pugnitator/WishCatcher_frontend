@@ -1,0 +1,87 @@
+@import './normalize.css';
+@import './fonts.css';
+@import './variables.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  &:focus {
+    border-radius: var(--border-radius);
+    outline: 2px solid var(--color-yellow);
+    outline-offset: 2px;
+  }
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-dark);
+  width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: clamp(30px, 3vw, 46px);
+}
+
+h2 {
+  font-size: clamp(24px, 2vw, 30px);
+}
+
+a,
+a:hover {
+  font-size: inherit;
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+button,
+input,
+textarea {
+  width: 100%;
+  padding: 5px 10px;
+  color: inherit;
+  border-radius: var(--border-radius);
+}
+
+button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  text-wrap: nowrap;
+}
+
+input {
+  height: 50px;
+  width: 100%;
+  border: var(--border);
+
+  &::placeholder {
+    color: var(--color-light-alt);
+  }
+}
+
+form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}

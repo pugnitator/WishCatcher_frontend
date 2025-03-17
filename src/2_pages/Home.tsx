@@ -1,61 +1,68 @@
-import styled from "styled-components";
-import Button from "../6_shared/ui/Button";
-import theme from "../1_app/ui/Theme";
-import HomeImg from "../6_shared/ui/images/guestBackgroundImg.svg"
+import styled from 'styled-components';
+import Button from '../6_shared/ui/Buttons/Button';
+import theme from '../1_app/ui/Theme';
+import HomeImg from '../assets/images/guestBackgroundImg.svg';
+import { buttonColors } from '../6_shared/ui/Buttons/Button';
+import { useContext } from 'react';
+import { AppContext } from '../1_app/App';
 
 export default function Home() {
-
-    return (
-        <Container>
-            <GreetingContainer>
-                <StyledH1>Помоги друзьям <br />угадать<br /> с подарком</StyledH1>
-                <TextContainer>
-                    <p>Создавай списки желаний, делись ими с близкими и выбирай идеальные подарки для праздников</p>
-                </TextContainer>
-                <CallToActionButton text='Создать свой вишлист!' onClick={()=> console.log('Хочу вишлист!')} />
-            </GreetingContainer>
-            <Picture src={HomeImg} alt='presents and balloons'/>
-        </Container>
-    )     
-};
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error('AppContext null');
+  }
+  const { setIsModalActive } = context;
+  return (
+    <Container>
+      <GreetingContainer>
+        <h1>
+          Помоги друзьям
+          <br />
+          угадать
+          <br />с подарком
+        </h1>
+        <TextContainer>
+          Создавай списки желаний, делись ими <br />с близкими и выбирай
+          идеальные подарки для праздников
+        </TextContainer>
+        <Button
+          isLink={false}
+          text="Создать свой вишлист!"
+          onClick={() => setIsModalActive(true)}
+          btnColor={buttonColors.purple}
+        />
+      </GreetingContainer>
+      <Picture src={HomeImg} alt="presents and balloons" />
+    </Container>
+  );
+}
 
 const Container = styled.div`
-    display: flex;
-    padding: 33px 12%;
-    justify-content: space-between;
-    align-self: center;
-    max-width: 1080px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(30px, 6.25vw, 90px);
+  
+  width: var(--content-container-width);
 `;
 
 const GreetingContainer = styled.main`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 50px;
-    max-height: 500px;
-    padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(20px, 3.9vw, 50px);
+  min-width: 350px;
+  max-height: 500px;
 `;
 
-const CallToActionButton = styled(Button)`
-    max-width: 60%;
-    background-color: ${theme.mainActiveColor};
-    border: none;
-    color: white;
-`;
 
 const Picture = styled.img`
-    max-height: 500px;
-    max-width: 500px;
-    opacity: 60%;
+  width: clamp(350px, 39vw, 500px);
+  aspect-ratio: 1;
+  opacity: 60%;
 `;
 
-const StyledH1 = styled.h1`
-    font-size: 56px;
-    color: ${theme.text.mainBlackColor};
-`
-
 const TextContainer = styled.div`
-    max-width: 60%;
-    color: ${theme.text.menuItemColor};
-    line-height: 120%;
-`
+  color: ${theme.colorPurpleLigth};
+  line-height: 120%;
+`;

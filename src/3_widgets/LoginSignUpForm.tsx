@@ -1,48 +1,118 @@
+import { useRef, useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import FormInput from '../6_shared/ui/Form/FormInput';
 import styled from 'styled-components';
-import Input from '../6_shared/ui/Input';
-import Button from '../6_shared/ui/Button';
-import theme from '../1_app/ui/Theme';
+import { registrationFormScheme } from '../6_shared/ui/Form/registrationFormScheme';
+import { AppContext } from '../1_app/App';
+import Button, { buttonColors } from '../6_shared/ui/Buttons/Button';
 
-interface loginSignUpModalProp {
-  formType: string;
-}
+export function LoginSignUpForm() {
+  const context = useContext(AppContext);
+  if(!context) {
+    throw new Error('Нет контекста');
+  }
+  const {isLoginForm, setIsLoginForm} = context;
+  const submitButtonRef = useRef(null);
+  const form = useForm({
+    mode: 'onTouched',
+    defaultValues: {
+      email: '',
+      password: '',
+      repeatPassword: '',
+    },
+    resolver: yupResolver(registrationFormScheme),
+  });
 
-export default function LoginSignUpForm(prop: loginSignUpModalProp) {
-  const { formType } = prop;
-  console.log('Я в форме', formType);
-  const formProp = formType === 'login' ? {title: 'Вход', buttonText: 'Войти'} 
-  : formType === 'signUp' ? {title: 'Регистрация', buttonText: 'Зарегистрироваться'} : null
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = form;
 
+  const formProp = isLoginForm
+    ? { title: 'Вход', buttonText: 'Войти' }
+    : { title: 'Регистрация', buttonText: 'Зарегистрироваться' };
+
+  const onSubmit = (data: any) => {
+    const { email, password } = data;
+    console.log('submit', { email, password });
+  };
 
   return (
-    formType && formProp && <StyledForm>
-        <h2>
-          {formProp.title}
-        </h2>
-        <Input title="Логин" />
-        <Input title="Пароль" inputType="password" />
-        <ButtonContainer>
-          <Button
-            text={formProp.buttonText}
-            onClick={() => console.log('Войти')}
+    <StyledForm {...form} onSubmit={handleSubmit(onSubmit)}>
+      <h2>{formProp.title}</h2>
+      <InputsWrap>
+        <FormInput
+          register={register('email')}
+          title={'E-mail'}
+          placeholder="E-mail"
+          type="email"
+          errorMessage={errors.email?.message}
+        />
+        <FormInput
+          register={register('password')}
+          title={'Пароль'}
+          placeholder="Пароль"
+          type="password"
+          errorMessage={errors.password?.message}
+        />
+        {!isLoginForm && (
+          <FormInput
+            register={register('repeatPassword')}
+            title={'Повторите пароль'}
+            placeholder="Пароль"
+            type="password"
+            errorMessage={errors.repeatPassword?.message}
           />
-        </ButtonContainer>
-      </StyledForm>
+        )}
+      </InputsWrap>
+      <SwitchFormButton onClick={() => setIsLoginForm(!isLoginForm)}>
+        {isLoginForm ? 'У меня ещё нет аккаунта' : 'У меня уже есть аккаунт'}
+      </SwitchFormButton>
+      <Button
+        isLink={false}
+        isSubmit={true}
+        ref={submitButtonRef}
+        text={isLoginForm ? 'Войти' : 'Зарегистрироваться'}
+        btnColor={buttonColors.purple}
+        isDisabled={isValid}
+      />
+    </StyledForm>
   );
 }
 
-const StyledForm = styled.form`
+const InputsWrap = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 30px;
-  min-width: 35vw;
-  min-height: 40vh;
-  border-radius: 25px;
-  background-color: ${theme.listBackground};
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  width: 100%;
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
+const StyledForm = styled.form`
+  height: 100%;
+  width: 100%;
+
+  color: var(--color-dark);
+
+  background-color: var(--color-light-alt);
+`;
+
+const SwitchFormButton = styled.button`
+  color: var(--color-purple);
+  text-align: center;
+  text-decoration: underline;
+  font-weight: 700;
+
+  background-color: transparent;
+
+  border: none;
+  border-radius: 0;
+
+  &:hover {
+    color: var(--color-purple-light);
+  }
 `;
