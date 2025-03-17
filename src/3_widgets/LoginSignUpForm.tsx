@@ -1,11 +1,11 @@
 import { useRef, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import FormInput from '../6_shared/ui/Form/FormInput';
+import FormInput from '../6_shared/ui/form/FormInput';
 import styled from 'styled-components';
-import { registrationFormScheme } from '../6_shared/ui/Form/registrationFormScheme';
+import { registrationFormScheme } from '../6_shared/ui/form/registrationFormScheme';
 import { AppContext } from '../1_app/App';
-import Button, { buttonColors } from '../6_shared/ui/Buttons/Button';
+import Button, { buttonColors } from '../6_shared/ui/buttons/Button';
 
 export function LoginSignUpForm() {
   const context = useContext(AppContext);

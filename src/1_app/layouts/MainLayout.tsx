@@ -5,20 +5,23 @@ import { RootState } from '../../5_entities/store';
 import Header from '../../3_widgets/Header';
 import Footer from '../../3_widgets/Footer';
 import Home from '../../2_pages/Home';
+import MyWishes from '../../2_pages/MyWishes';
 
 export default function MainLayout() {
-  const isUserLogin = useSelector((state: RootState) => state.user.isLogin)
+  // const isUserLogin = useSelector((state: RootState) => state.user.isLogin);
+  const isUserLogin = true;
   console.log(isUserLogin);
   return (
     <Layout isLogin={isUserLogin}>
-      <Header/> 
+      <Header isUserLogin={isUserLogin}/> 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/MyWishes" element={<Home />} />
-        <Route path="/Friends" element={<Home />} />
-        <Route path="/GivingToFriends" element={<Home />} />
+        <Route path="/MyWishes" element={isUserLogin ? <MyWishes /> : <Home />} />
+        <Route path="/Friends" element={isUserLogin ? <MyWishes /> : <Home />} />
+        <Route path="/GivingToFriends" element={isUserLogin ? <MyWishes /> : <Home />} />
+        <Route path="*" element={<Home />} />
       </Routes>
-      <Footer />
+      <Footer isUserLogin={isUserLogin}/>
     </Layout>
   );
 }
@@ -36,5 +39,4 @@ const Layout = styled.div<LayoutProp>`
   height: 100vh;
   background: ${prop => prop.isLogin ? `var(--bg-color-user)` : `var(--bg-color-guest)`};
   border: none;
-  /* overflow-x: hidden; */
 `;

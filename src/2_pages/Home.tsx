@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import Button from '../6_shared/ui/Buttons/Button';
+import Button from '../6_shared/ui/buttons/Button';
 import theme from '../1_app/ui/Theme';
 import HomeImg from '../assets/images/guestBackgroundImg.svg';
-import { buttonColors } from '../6_shared/ui/Buttons/Button';
+import { buttonColors } from '../6_shared/ui/buttons/Button';
 import { useContext } from 'react';
 import { AppContext } from '../1_app/App';
 
