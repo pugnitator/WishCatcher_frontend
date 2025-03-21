@@ -11,7 +11,7 @@ export default function Home() {
   if (!context) {
     throw new Error('AppContext null');
   }
-  const { setIsModalActive } = context;
+  const { setIsModalOpen } = context;
   return (
     <Container>
       <GreetingContainer>
@@ -28,7 +28,7 @@ export default function Home() {
         <Button
           isLink={false}
           text="Создать свой вишлист!"
-          onClick={() => setIsModalActive(true)}
+          onClick={() => setIsModalOpen(true)}
           btnColor={buttonColors.purple}
         />
       </GreetingContainer>

@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import Modal from './modals/Modal';
 import { buttonColors } from '../6_shared/ui/buttons/Button';
 import { AppContext } from '../1_app/App';
-import { LoginSignUpForm } from './LoginSignUpForm';
+import { LoginSignUpForm } from './form/LoginSignUpForm';
 
 interface HeaderProp {
   isUserLogin: boolean
@@ -19,18 +19,18 @@ export default function Header({isUserLogin}: HeaderProp) {
     throw new Error('AppContext null');
   }
 
-  const { isModalActive, setIsModalActive, setIsLoginForm } = context;
+  const { isModalActive, setIsModalOpen, setIsLoginForm } = context;
   console.log('isUserLogin', isUserLogin)
 
   const openModal = (type: boolean) => {
     setIsLoginForm(type);
-    setIsModalActive(true);
+    setIsModalOpen(true);
     console.log('открыть модалку');
   };
 
   const onCloseModal = () => {
     setIsLoginForm(null);
-    setIsModalActive(false);
+    setIsModalOpen(false);
     console.log('закрыть модалку');
   };
 
