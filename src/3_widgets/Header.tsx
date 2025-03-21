@@ -1,36 +1,36 @@
 import styled from 'styled-components';
 import Logo from '../6_shared/ui/Logo';
 import MenuItem from '../6_shared/ui/menu/MenuItem';
-import { useSelector } from 'react-redux';
-import { RootState } from '../5_entities/store';
 import { UserAction } from '../4_features/ui/UserAction';
-import Button from '../6_shared/ui/Buttons/Button';
+import Button from '../6_shared/ui/buttons/Button';
 import { useContext } from 'react';
 import Modal from './modals/Modal';
-import { buttonColors } from '../6_shared/ui/Buttons/Button';
+import { buttonColors } from '../6_shared/ui/buttons/Button';
 import { AppContext } from '../1_app/App';
-import { LoginSignUpForm } from './LoginSignUpForm';
+import { LoginSignUpForm } from './form/LoginSignUpForm';
 
-export default function Header() {
+interface HeaderProp {
+  isUserLogin: boolean
+}
+
+export default function Header({isUserLogin}: HeaderProp) {
   const context = useContext(AppContext);
   if (!context) {
     throw new Error('AppContext null');
   }
 
-  const { isModalActive, setIsModalActive, setIsLoginForm } = context;
-  const isUserLogin = useSelector((state: RootState) => state.user.isLogin);
-  // const isUserLogin = true;
+  const { isModalActive, setIsModalOpen, setIsLoginForm } = context;
   console.log('isUserLogin', isUserLogin)
 
   const openModal = (type: boolean) => {
     setIsLoginForm(type);
-    setIsModalActive(true);
+    setIsModalOpen(true);
     console.log('открыть модалку');
   };
 
   const onCloseModal = () => {
     setIsLoginForm(null);
-    setIsModalActive(false);
+    setIsModalOpen(false);
     console.log('закрыть модалку');
   };
 

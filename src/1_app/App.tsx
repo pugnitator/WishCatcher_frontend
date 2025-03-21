@@ -5,7 +5,7 @@ import { createContext, useState } from 'react';
 
 interface AppContextType {
   isModalActive: boolean;
-  setIsModalActive: (value: boolean) => void;
+  setIsModalOpen: (value: boolean) => void;
   isLoginForm: boolean | null; //true - вход, false - регистрация
   setIsLoginForm: (value: boolean | null) => void;
 }
@@ -13,7 +13,7 @@ interface AppContextType {
 export const AppContext = createContext<AppContextType | null>(null);
 
 function App() {
-  const [isModalActive, setIsModalActive] = useState<boolean>(false);
+  const [isModalActive, setIsModalOpen] = useState<boolean>(false);
   const [formType, setIsLoginForm] = useState<boolean | null>(null);
 
   return (
@@ -21,7 +21,7 @@ function App() {
       <AppContext.Provider
         value={{
           isModalActive: isModalActive,
-          setIsModalActive: setIsModalActive,
+          setIsModalOpen: setIsModalOpen,
           isLoginForm: formType,
           setIsLoginForm: setIsLoginForm,
         }}

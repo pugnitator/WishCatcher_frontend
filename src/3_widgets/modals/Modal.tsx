@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { SyntheticEvent, useContext } from 'react';
 import { createPortal } from 'react-dom';
-import CloseButton from '../../6_shared/ui/Buttons/CloseButton';
+import CloseButton from '../../6_shared/ui/buttons/CloseButton';
 import { AppContext } from '../../1_app/App';
 
 interface ModalProp {

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import Button from '../6_shared/ui/Buttons/Button';
+import Button from '../6_shared/ui/buttons/Button';
 import theme from '../1_app/ui/Theme';
 import HomeImg from '../assets/images/guestBackgroundImg.svg';
-import { buttonColors } from '../6_shared/ui/Buttons/Button';
+import { buttonColors } from '../6_shared/ui/buttons/Button';
 import { useContext } from 'react';
 import { AppContext } from '../1_app/App';
 
@@ -11,7 +11,7 @@ export default function Home() {
   if (!context) {
     throw new Error('AppContext null');
   }
-  const { setIsModalActive } = context;
+  const { setIsModalOpen } = context;
   return (
     <Container>
       <GreetingContainer>
@@ -28,7 +28,7 @@ export default function Home() {
         <Button
           isLink={false}
           text="Создать свой вишлист!"
-          onClick={() => setIsModalActive(true)}
+          onClick={() => setIsModalOpen(true)}
           btnColor={buttonColors.purple}
         />
       </GreetingContainer>
