@@ -1,8 +1,8 @@
 export default interface IUser {
     id: string;
     login: string;
-    name: string;
-    birthday: string;
+    name?: string;
+    birthday?: string;
     friends?: Array<string>;
 }
 

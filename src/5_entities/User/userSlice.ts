@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import userInitialState from "./model/UserInitialState";
-import authorization from "./asyncActions/authorization";
+import login from "./asyncActions/login";
 import registration from "./asyncActions/registration";
 
 const userSlice = createSlice({
@@ -10,6 +10,8 @@ const userSlice = createSlice({
       setUser(state, action) {
         state.isLogin = true;
         state.currentUser = action.payload;
+        console.log(action.payload);
+        console.log(state)
       },
       removeUser(state) {
         state.isLogin = false;
@@ -18,14 +20,14 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
       builder
-        .addCase(authorization.pending, () => {
+        .addCase(login.pending, () => {
           //лоадер?
         })
-        .addCase(authorization.fulfilled, (state, action) => {
+        .addCase(login.fulfilled, (state, action) => {
           state.isLogin = true;
           state.currentUser = action.payload;
         })
-        .addCase(authorization.rejected, (state, action) => {
+        .addCase(login.rejected, (state, action) => {
           console.error('Ошибка авторизации:', action.payload);
         })
 

@@ -1,7 +1,8 @@
-import { Provider } from 'react-redux';
 import MainLayout from './layouts/MainLayout';
-import store from '../5_entities/store';
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
+import checkToken from '../5_entities/User/asyncActions/checkToken';
+import { useAppDispatch } from '../5_entities/hooks/useAppDispatch';
+import { userSliceActions } from '../5_entities/User/userSlice';
 
 interface AppContextType {
   isModalActive: boolean;
@@ -13,11 +14,20 @@ interface AppContextType {
 export const AppContext = createContext<AppContextType | null>(null);
 
 function App() {
+  const dispatch = useAppDispatch();
   const [isModalActive, setIsModalOpen] = useState<boolean>(false);
   const [formType, setIsLoginForm] = useState<boolean | null>(null);
+  
+  useEffect(() => {
+    checkToken().then((user) => {
+      if (user) {
+        console.log(user);
+        dispatch(userSliceActions.setUser(user));
+      }
+    });
+  }, []);
 
   return (
-    <Provider store={store}>
       <AppContext.Provider
         value={{
           isModalActive: isModalActive,
@@ -28,7 +38,6 @@ function App() {
       >
         <MainLayout />
       </AppContext.Provider>
-    </Provider>
   );
 }
 

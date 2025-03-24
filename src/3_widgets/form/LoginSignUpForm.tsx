@@ -1,41 +1,55 @@
 import { useRef, useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import { Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import FormInput from '../../6_shared/ui/form/FormInput';
 import styled from 'styled-components';
 import { registrationFormScheme } from '../../6_shared/ui/form/registrationFormScheme';
+import { loginFormScheme } from '../../6_shared/ui/form/loginFormScheme';
 import { AppContext } from '../../1_app/App';
 import Button, { buttonColors } from '../../6_shared/ui/buttons/Button';
+import FormInput from '../../6_shared/ui/form/FormInput';
 import registration from '../../5_entities/User/asyncActions/registration';
 import { useAppDispatch } from '../../5_entities/hooks/useAppDispatch';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../5_entities/store';
+// import { useSelector } from 'react-redux';
+// import { RootState } from '../../5_entities/store';
+import login from '../../5_entities/User/asyncActions/login';
+import { userSliceActions } from '../../5_entities/User/userSlice';
+
+type FormValues = {
+  email: string;
+  password: string;
+  repeatPassword?: string;
+};
 
 export function LoginSignUpForm() {
   const context = useContext(AppContext);
   if (!context) {
     throw new Error('AppContext null');
   }
-
-  const isUserLogin = useSelector((state: RootState) => state.user.isLogin);
-
-  const { isLoginForm, setIsLoginForm } = context;
-  const submitButtonRef = useRef(null);
+  const { isLoginForm, setIsLoginForm, setIsModalOpen } = context;
   const dispatch = useAppDispatch();
-  const form = useForm({
+
+  const submitButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  const form = useForm<FormValues>({
     mode: 'onTouched',
-    defaultValues: {
+    defaultValues: isLoginForm 
+    ? {
+      email: '',
+      password: '',
+    } 
+    : {
       email: '',
       password: '',
       repeatPassword: '',
     },
-    resolver: yupResolver(registrationFormScheme),
-  });
+    resolver: yupResolver(isLoginForm ? loginFormScheme : registrationFormScheme) as Resolver<FormValues>,
+  })
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = form;
 
   const formProp = isLoginForm
@@ -44,21 +58,30 @@ export function LoginSignUpForm() {
 
   const onSubmit = async (data: any) => {
     const { email, password } = data;
-    console.log('submit', { email, password });
-
+    console.log(email, password);
     try {
-      if (isLoginForm) {
-        console.log('submit', 'Вход')
-      } else {
-        const result = await dispatch(registration({ login: email, password })).unwrap();
-        console.log('Успешная регистрация', result)
-      }
+      let result;
 
-    }catch(error) {
+      if (isLoginForm) {
+        result = await dispatch(login({ login: email, password })).unwrap();
+        console.log('Токен', result.token);
+      } else {
+        result = await dispatch(
+          registration({ login: email, password })
+        ).unwrap();
+        console.log('Успешная регистрация', result);
+        context.setIsLoginForm(true);
+      };
+
+      if (result?.token && result?.user) {
+        console.log(result.user, result.token);
+        sessionStorage.setItem('authToken', result.token);
+        dispatch(userSliceActions.setUser(result.user));
+        setIsModalOpen(false);
+      };
+    } catch (error) {
       console.error('Ошибка регистрации:', error);
       return;
-    }finally {
-      if (isUserLogin == false) context.setIsLoginForm(true);
     }
   };
 
@@ -99,7 +122,6 @@ export function LoginSignUpForm() {
         ref={submitButtonRef}
         text={isLoginForm ? 'Войти' : 'Зарегистрироваться'}
         btnColor={buttonColors.purple}
-        isDisabled={isValid}
       />
     </StyledForm>
   );

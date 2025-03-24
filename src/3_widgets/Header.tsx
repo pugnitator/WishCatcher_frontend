@@ -10,17 +10,17 @@ import { AppContext } from '../1_app/App';
 import { LoginSignUpForm } from './form/LoginSignUpForm';
 
 interface HeaderProp {
-  isUserLogin: boolean
+  isUserLogin: boolean;
 }
 
-export default function Header({isUserLogin}: HeaderProp) {
+export default function Header({ isUserLogin }: HeaderProp) {
   const context = useContext(AppContext);
   if (!context) {
     throw new Error('AppContext null');
   }
 
   const { isModalActive, setIsModalOpen, setIsLoginForm } = context;
-  console.log('isUserLogin', isUserLogin)
+  console.log('isUserLogin', isUserLogin);
 
   const openModal = (type: boolean) => {
     setIsLoginForm(type);
@@ -66,11 +66,9 @@ export default function Header({isUserLogin}: HeaderProp) {
         </LoginSignUpMenu>
       )}
 
-        <Modal
-          isActive={isModalActive}
-          closeModal={onCloseModal}
-          children={LoginSignUpForm()}
-        />
+      <Modal isActive={isModalActive} closeModal={onCloseModal}>
+        <LoginSignUpForm />
+      </Modal>
     </HeaderContainer>
   );
 }

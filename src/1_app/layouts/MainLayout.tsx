@@ -8,8 +8,8 @@ import Home from '../../2_pages/Home';
 import MyWishes from '../../2_pages/MyWishes';
 
 export default function MainLayout() {
+  
   const isUserLogin = useSelector((state: RootState) => state.user.isLogin);
-  // const isUserLogin = true;
   console.log(isUserLogin);
   return (
     <Layout isLogin={isUserLogin}>
