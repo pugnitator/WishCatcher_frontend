@@ -1,28 +1,25 @@
 import styled from "styled-components";
 
-interface ListContainerProp{
+interface IPageWrapperProp {
     children: React.ReactNode;
-}
+  }
 
-export default function ListContainer({children}: ListContainerProp) {
-    return (
+export default function PageWrapper({children}: IPageWrapperProp) {
+    return(
         <Container>
             {children}
         </Container>
     )
 };
 
-const Container = styled.ul`
+const Container = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 30px;
 
   width: 100%;
   height: 100%;
-
-  border-radius: var(--border-radius-large);
-
-  background-color: var(--color-light-alt);
+  padding: 30px 0;
 `;

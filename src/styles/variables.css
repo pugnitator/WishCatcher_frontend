@@ -24,7 +24,7 @@
   --padding-inline: 30px;
 
   --border: 2px solid var(--color-light);
-  --border-radius: 10px;
+  --border-radius: 15px;
   --border-radius-large: 25px;
 
   --content-container-width: clamp(750px, 78.13vw, 1000px);

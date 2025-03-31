@@ -13,7 +13,6 @@ export default async function checkToken() {
 
     return user.id ? user : null;
   } catch (e) {
-    console.log(token);
     return null;
   }
 }

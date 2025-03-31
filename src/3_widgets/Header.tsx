@@ -8,6 +8,7 @@ import Modal from './modals/Modal';
 import { buttonColors } from '../6_shared/ui/buttons/Button';
 import { AppContext } from '../1_app/App';
 import { LoginSignUpForm } from './form/LoginSignUpForm';
+import ContentContainer from '../6_shared/ui/ContentContainer';
 
 interface HeaderProp {
   isUserLogin: boolean;
@@ -35,54 +36,64 @@ export default function Header({ isUserLogin }: HeaderProp) {
   };
 
   return (
-    <HeaderContainer>
-      <Logo />
-      {isUserLogin && (
-        <>
-          <nav>
-            <Menu>
-              <MenuItem text="Мой вишлист" path="/MyWishes" />
-              <MenuItem text="Друзья" path="/Friends" />
-              <MenuItem text="Дарю друзьям" path="/GivingToFriends" />
-            </Menu>
-          </nav>
-          <UserAction />
-        </>
-      )}
-      {!isUserLogin && (
-        <LoginSignUpMenu>
-          <LoginButton
-            isLink={false}
-            text="Войти"
-            onClick={() => openModal(true)}
-            btnColor={buttonColors.white}
-          />
-          <SignUpButton
-            isLink={false}
-            text="Зарегистрироваться"
-            onClick={() => openModal(false)}
-            btnColor={buttonColors.white}
-          />
-        </LoginSignUpMenu>
-      )}
-
-      <Modal isActive={isModalActive} closeModal={onCloseModal}>
-        <LoginSignUpForm />
-      </Modal>
-    </HeaderContainer>
+    <HeaderWrapper>
+      <ContentContainer>
+        <HeaderContainer>
+          <Logo />
+          {isUserLogin && (
+            <>
+              <nav>
+                <Menu>
+                  <MenuItem text="Мой вишлист" path="/MyWishes" />
+                  <MenuItem text="Друзья" path="/Friends" />
+                  <MenuItem text="Дарю друзьям" path="/GivingToFriends" />
+                </Menu>
+              </nav>
+              <UserAction />
+            </>
+          )}
+          {!isUserLogin && (
+            <LoginSignUpMenu>
+              <LoginButton
+                isLink={false}
+                text="Войти"
+                onClick={() => openModal(true)}
+                btnColor={buttonColors.white}
+              />
+              <SignUpButton
+                isLink={false}
+                text="Зарегистрироваться"
+                onClick={() => openModal(false)}
+                btnColor={buttonColors.white}
+              />
+            </LoginSignUpMenu>
+          )}
+          <Modal isActive={isModalActive} closeModal={onCloseModal}>
+            <LoginSignUpForm />
+          </Modal>
+        </HeaderContainer>
+      </ContentContainer>
+    </HeaderWrapper>
   );
 }
+
+const HeaderWrapper = styled.header`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+
+  padding: 10px 0;
+
+  background-color: var(--color-light);
+  color: var(--color-purple);
+`;
 
 const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  height: 80px;
-  padding-inline: var(--padding-inline);
-
-  background-color: var(--color-light);
-  color: var(--color-purple);
   font-weight: 700;
 `;
 

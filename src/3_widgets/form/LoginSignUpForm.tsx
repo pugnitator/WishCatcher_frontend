@@ -10,8 +10,6 @@ import Button, { buttonColors } from '../../6_shared/ui/buttons/Button';
 import FormInput from '../../6_shared/ui/form/FormInput';
 import registration from '../../5_entities/User/asyncActions/registration';
 import { useAppDispatch } from '../../5_entities/hooks/useAppDispatch';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '../../5_entities/store';
 import login from '../../5_entities/User/asyncActions/login';
 import { userSliceActions } from '../../5_entities/User/userSlice';
 

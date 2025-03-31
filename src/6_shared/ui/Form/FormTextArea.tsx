@@ -7,19 +7,25 @@ interface FormInputProp {
   placeholder: string;
   type?: string;
   errorMessage?: string;
+  isReadOnly?: boolean;
 }
 
-export default function FormInput({
+export default function FormTextarea({
   register,
   title,
   placeholder,
-  type,
   errorMessage,
+  isReadOnly,
 }: FormInputProp) {
   return (
     <Container>
       <label>{title}</label>
-      <StyledInput {...register} type={type ?? 'text'} placeholder={placeholder} />
+      <StyledTextArea
+        autoComplete="off"
+        readOnly={isReadOnly ?? false}
+        {...register}
+        placeholder={placeholder}
+      />
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </Container>
   );
@@ -35,8 +41,16 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const StyledInput = styled.input`
+const StyledTextArea = styled.textarea`
+  min-height: 150px;
+  max-width: inherit;
+
+  padding: 15px 10px;
+
   background-color: var(--color-light);
+
+  text-align: start;
+  resize: none;
 `;
 
 const ErrorMessage = styled.p`

@@ -17,27 +17,29 @@ function App() {
   const dispatch = useAppDispatch();
   const [isModalActive, setIsModalOpen] = useState<boolean>(false);
   const [formType, setIsLoginForm] = useState<boolean | null>(null);
-  
+  const [isTokenVerificationComplete, setIsTokenVerificationComplete] = useState(false);
+
   useEffect(() => {
     checkToken().then((user) => {
       if (user) {
         console.log(user);
         dispatch(userSliceActions.setUser(user));
       }
+      setIsTokenVerificationComplete(true);
     });
   }, []);
 
   return (
-      <AppContext.Provider
-        value={{
-          isModalActive: isModalActive,
-          setIsModalOpen: setIsModalOpen,
-          isLoginForm: formType,
-          setIsLoginForm: setIsLoginForm,
-        }}
-      >
-        <MainLayout />
-      </AppContext.Provider>
+    <AppContext.Provider
+      value={{
+        isModalActive: isModalActive,
+        setIsModalOpen: setIsModalOpen,
+        isLoginForm: formType,
+        setIsLoginForm: setIsLoginForm,
+      }}
+    >
+      {isTokenVerificationComplete && <MainLayout />}
+    </AppContext.Provider>
   );
 }
 

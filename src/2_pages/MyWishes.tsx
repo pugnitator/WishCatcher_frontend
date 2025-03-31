@@ -1,13 +1,136 @@
-import ListPageContainer from "../6_shared/ui/ListPageContainer"
-import ListActionBar from "../3_widgets/ListActionBar"
-import MyWishesList from "../3_widgets/list/MyWishList"
-
+import styled from 'styled-components';
+import { useState, useEffect } from 'react';
+import ListRenderer, { TListItem } from '../4_features/ui/ListRenderer';
+import ContentContainer from '../6_shared/ui/ContentContainer';
+import PageWrapper from '../6_shared/ui/PageWrapper';
+import PageBody from '../6_shared/ui/PageBody';
+import MyWishRow from '../3_widgets/items/MyWishRow';
+import EmptyListMessage from '../6_shared/ui/EmptyListMessage';
+import getMyWishes from '../5_entities/Wish/getMyWishes';
+import Button from '../6_shared/ui/buttons/Button';
+import { buttonColors } from '../6_shared/ui/buttons/Button';
+import { useNavigate } from 'react-router-dom';
+import shareIcon from '../assets/icons/shareIcon.svg';
+import { Outlet } from 'react-router-dom';
 
 export default function MyWishes() {
-    return (
-        <ListPageContainer title='Список моих желаний'>
-            <ListActionBar />
-            <MyWishesList />
-        </ListPageContainer>
-    )
+  const [itemList, setItemList] = useState<TListItem[]>([]);
+  const [currentPaging, setCurrentPaging] = useState(1);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getMyWishes().then((res) => {
+      if (Array.isArray(res)) {
+        console.log('wishes', res);
+        setItemList(res);
+      }
+    });
+  }, []);
+
+  const itemsPerPage = 6;
+  const pagesNumber = Math.ceil(itemList.length / itemsPerPage);
+  const currentItemList = itemList.slice(
+    (currentPaging - 1) * itemsPerPage,
+    currentPaging * itemsPerPage
+  );
+
+  const onClickShare = () => {
+    console.log('Делимся');
+  };
+
+  return (
+    <ContentContainer>
+      <PageWrapper>
+        <PageHeader>
+          <h1>Мои пожелания</h1>
+          <Buttons>
+            <Button
+              isLink={false}
+              btnColor={buttonColors.white}
+              onClick={() => navigate('/CreateWish')}
+            >
+              + Создать пожелание
+            </Button>
+            <Button
+              isLink={false}
+              btnColor={buttonColors.yellow}
+              onClick={onClickShare}
+            >
+              <ButtonContent>
+                <img
+                  src={shareIcon}
+                  alt="Поделиться списком пожеланий"
+                  width="16px"
+                  height="16px"
+                  loading="lazy"
+                />
+                <span>Поделиться</span>
+              </ButtonContent>
+            </Button>
+          </Buttons>
+        </PageHeader>
+        <PageBody>
+          {itemList.length > 0 ? (
+            <ListContainer>
+              <ListRenderer
+                itemList={currentItemList}
+                setItemList={setItemList}
+                Item={MyWishRow}
+              />
+              <div>Пагинация</div>
+            </ListContainer>
+          ) : (
+            <EmptyListMessage />
+          )}
+        </PageBody>
+      </PageWrapper>
+      <Outlet />
+    </ContentContainer>
+  );
 }
+
+// const PageWrapper = styled.main`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 30px;
+
+//   width: 100%;
+//   height: 100%;
+//   padding: 30px 0;
+// `;
+
+const ListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+`
+
+const PageHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  height: 60px;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 10px;
+`;
+
+const ButtonContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`;

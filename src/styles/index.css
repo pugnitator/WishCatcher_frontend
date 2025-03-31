@@ -12,6 +12,10 @@
     outline: 2px solid var(--color-yellow);
     outline-offset: 2px;
   }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
 }
 
 body {
@@ -34,6 +38,8 @@ h6 {
 
 h1 {
   font-size: clamp(30px, 3vw, 46px);
+  color: var(--color-light);
+  font-weight: 500;
 }
 
 h2 {
@@ -68,7 +74,7 @@ button {
   text-wrap: nowrap;
 }
 
-input {
+input, textarea {
   height: 50px;
   width: 100%;
   border: var(--border);

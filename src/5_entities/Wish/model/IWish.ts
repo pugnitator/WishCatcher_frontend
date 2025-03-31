@@ -4,13 +4,18 @@ enum WishState{
     'presented' = '2',
 }
 
+type TTag = {
+    name: string;
+    color: string;
+}
+
 export default interface IWish {
     id: string;
     name: string;
     state: WishState;
     giftURL?: string;
     comment?: string;
-    tags: [string];
+    tags: TTag[];
     ownerId: string;
     reservedBy: string;
 }

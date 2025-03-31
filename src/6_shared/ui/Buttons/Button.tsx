@@ -7,11 +7,13 @@ type ButtonColor = {
 
 export const buttonColors = {
   purple: { color: 'var(--color-light)', bg: 'var(--color-purple)' },
-  white: { color: 'var(--color-purple)', bg: 'transparent' },
-  yellow: { color: 'var(--color-light)', bg: 'var(--color-yellow)' },
+  white: { color: 'var(--color-purple)', bg: 'var(--color-light)' },
+  whiteCancel: { color: 'var(--color-red)', bg: 'var(--color-light)' },
+  yellow: { color: 'var(--color-purple)', bg: 'var(--color-yellow)' },
+  transparent: { color: 'transparent', bg: 'transparent' },
 };
 
-export interface buttonProp {
+export interface ButtonProp {
   isLink: boolean;
   link?: string;
   text?: string;
@@ -24,7 +26,7 @@ export interface buttonProp {
   ref?: React.RefObject<HTMLButtonElement | null>;
 }
 
-export default function Button(prop: buttonProp) {
+export default function Button(prop: ButtonProp) {
   const {
     isLink,
     link,
