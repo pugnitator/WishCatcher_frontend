@@ -12,6 +12,7 @@ import { buttonColors } from '../6_shared/ui/buttons/Button';
 import { useNavigate } from 'react-router-dom';
 import shareIcon from '../assets/icons/shareIcon.svg';
 import { Outlet } from 'react-router-dom';
+import deleteWish from '../5_entities/Wish/deleteWish';
 
 export default function MyWishes() {
   const [itemList, setItemList] = useState<TListItem[]>([]);
@@ -36,6 +37,13 @@ export default function MyWishes() {
 
   const onClickShare = () => {
     console.log('Делимся');
+  };
+
+  const wishActions = {
+    delete: (wishId: string) => {
+      deleteWish(wishId);
+      setItemList((prevList) => prevList.filter((wish) => wish.id !== wishId));
+    },
   };
 
   return (
@@ -74,8 +82,8 @@ export default function MyWishes() {
             <ListContainer>
               <ListRenderer
                 itemList={currentItemList}
-                setItemList={setItemList}
                 Item={MyWishRow}
+                actions={wishActions}
               />
               <div>Пагинация</div>
             </ListContainer>
@@ -89,18 +97,6 @@ export default function MyWishes() {
   );
 }
 
-// const PageWrapper = styled.main`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   gap: 30px;
-
-//   width: 100%;
-//   height: 100%;
-//   padding: 30px 0;
-// `;
-
 const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -109,7 +105,7 @@ const ListContainer = styled.div`
 
   width: 100%;
   height: 100%;
-`
+`;
 
 const PageHeader = styled.div`
   display: flex;

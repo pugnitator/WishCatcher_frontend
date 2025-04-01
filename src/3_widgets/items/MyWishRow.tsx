@@ -1,25 +1,22 @@
 import styled from 'styled-components';
 import IWish from '../../5_entities/Wish/model/IWish';
 import ListItemWrapper from '../../6_shared/ui/list/ListItemWrapper';
-import deleteIcon from '../../assets/icons/DeleteIcon.svg';
-import Button, { buttonColors } from '../../6_shared/ui/buttons/Button';
 import ImageButton from '../../6_shared/ui/buttons/ImageButton';
 
 interface MyWishRowProps {
   data: IWish;
+  actions: Record<string, (props: any) => void>
 }
 
-export default function MyWishRow(props: MyWishRowProps) {
-  const { data } = props;
-  const { id, name, tags } = data;
-
-  //TODO: доделать функционал с тегами
+export default function MyWishRow({data, actions}: MyWishRowProps) {
+  const { id, name } = data;
+  console.log('wishData', data, id);
 
   return (
     <ListItemWrapper>
       <WishName>{name}</WishName>
       <ButtonWrapper>
-        <ImageButton onClick={() => console.log('Удалить')}>
+        <ImageButton onClick={() => actions.delete(id)}>
           <svg
             width="30"
             height="31"
@@ -49,16 +46,3 @@ const WishName = styled.span`
 const ButtonWrapper = styled.div`
   width: 60px;
 `;
-
-const StyledImg = styled.svg`
-  &:hover {
-  }
-`;
-
-// const Tags = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   gap: 10px;
-
-// `;

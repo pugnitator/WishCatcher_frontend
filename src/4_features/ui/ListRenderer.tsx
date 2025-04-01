@@ -6,22 +6,21 @@ export type TListItem = IWish | IUser;
 
 interface ListRendererProp {
   itemList: TListItem[];
-  setItemList?: (newList: TListItem[]) => void;
-  //TODO: разобраться, что тут писать вместо any
   Item: React.FC<any>;
+  actions: Record<string, (props: any) => void>
 }
 
 export default function ListRenderer({
   itemList,
-  setItemList,
   Item,
+  actions,
 }: ListRendererProp) {
   return (
     <Container>
       <SearchBar>Поиск</SearchBar>
       <List>
         {itemList.map((item, index) => (
-          <Item key={`listItem_${index}`} data={item} />
+          <Item key={`listItem_${index}`} data={item} actions={actions}/>
         ))}
       </List>
     </Container>

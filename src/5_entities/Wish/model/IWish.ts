@@ -15,9 +15,9 @@ export default interface IWish {
     state: WishState;
     giftURL?: string;
     comment?: string;
-    tags: TTag[];
+    tags?: TTag[];
     ownerId: string;
-    reservedBy: string;
+    reservedBy?: string;
 }
 
 /*
