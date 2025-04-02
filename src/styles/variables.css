@@ -25,6 +25,7 @@
 
   --border: 2px solid var(--color-light);
   --border-radius: 15px;
+  --border-radius-small: 10px;
   --border-radius-large: 25px;
 
   --content-container-width: clamp(750px, 78.13vw, 1000px);

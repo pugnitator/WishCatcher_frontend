@@ -13,10 +13,12 @@ import { useNavigate } from 'react-router-dom';
 import shareIcon from '../assets/icons/shareIcon.svg';
 import { Outlet } from 'react-router-dom';
 import deleteWish from '../5_entities/Wish/deleteWish';
+import Paging from '../4_features/ui/Paging';
+import SearchBar from '../3_widgets/SearchBar';
 
 export default function MyWishes() {
   const [itemList, setItemList] = useState<TListItem[]>([]);
-  const [currentPaging, setCurrentPaging] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,9 +32,10 @@ export default function MyWishes() {
 
   const itemsPerPage = 6;
   const pagesNumber = Math.ceil(itemList.length / itemsPerPage);
+
   const currentItemList = itemList.slice(
-    (currentPaging - 1) * itemsPerPage,
-    currentPaging * itemsPerPage
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   const onClickShare = () => {
@@ -85,7 +88,9 @@ export default function MyWishes() {
                 Item={MyWishRow}
                 actions={wishActions}
               />
-              <div>Пагинация</div>
+              {itemList.length > itemsPerPage && (
+                <Paging totalPages={pagesNumber} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+              )}
             </ListContainer>
           ) : (
             <EmptyListMessage />
@@ -102,6 +107,8 @@ const ListContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
+  gap: 30px;
 
   width: 100%;
   height: 100%;

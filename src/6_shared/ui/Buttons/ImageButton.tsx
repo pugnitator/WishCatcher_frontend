@@ -19,6 +19,8 @@ export default function ImageButton({ children, onClick }: ImageButtonProp) {
 }
 
 const StyledButton = styled(Button)`
+  width: fit-content;
+  aspect-ratio: 1;
   svg {
     transition: fill 0.3s ease;
   }
@@ -27,6 +29,7 @@ const StyledButton = styled(Button)`
     background-color: transparent;
 
     svg {
+      fill-opacity: 60%;
       stroke-opacity: 60%;
     }
   }

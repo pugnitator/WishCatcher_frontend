@@ -19,7 +19,7 @@ const Container = styled.article`
     align-items: center;
 
     width: 100%;
-    height: 65px;
+    height: 60px;
 
     padding-inline: 20px 0px;
 

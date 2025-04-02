@@ -69,7 +69,8 @@ const ButtonWrap = styled.button<ButtonColor>`
   font-size: 18px;
   background-color: ${({ bg }) => bg ?? 'inherit'};
   &:hover {
-    background-color: var(--color-purple-light);
+    /* background-color: var(--color-purple-light); */
+    opacity: 80%;
   }
 `;
 

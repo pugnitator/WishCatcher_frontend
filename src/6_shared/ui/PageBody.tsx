@@ -17,7 +17,7 @@ const Container = styled.div`
   flex-grow: 1;
 
   width: 100%;
-  min-height: 600px;
+  /* min-height: 600px; */
   padding: 30px;
 
   background-color: var(--color-light-alt);

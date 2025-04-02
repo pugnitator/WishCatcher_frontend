@@ -10,6 +10,7 @@ export default function CreateWish() {
   const navigate = useNavigate();
   const onClickSave = () => {
     document.querySelector('form')?.requestSubmit()
+    navigate('/MyWishes')
   }
   return (
     <ContentContainer>
