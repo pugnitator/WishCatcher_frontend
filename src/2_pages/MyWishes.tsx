@@ -35,7 +35,7 @@ export default function MyWishes() {
     }, 0.01);
   }, []);
 
-  const itemsPerPage = 6;
+  const itemsPerPage = 5;
   const pagesNumber = Math.ceil(itemList.length / itemsPerPage);
 
   const currentItemList = itemList.slice(

@@ -6,6 +6,12 @@
   --color-purple-light: #c8a4e4;
   --color-yellow: #ffd484;
   --color-red: #C94E70;
+  
+  --h1-font-size: clamp(30px, 3vw, 46px);
+  --h1-color: var(--color-light);
+  --h1-weight: 500;
+
+  --header-height: 80px;
 
   --bg-color-guest: linear-gradient(
     60deg,

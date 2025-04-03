@@ -63,7 +63,7 @@ const StyledSearchBar = styled.div`
   align-items: center;
   gap: 20px;
   width: 100%;
-  height: fit-content;
+  height: 40px;
 
   padding: 0 10px 0 0;
 

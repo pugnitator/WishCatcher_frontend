@@ -1,9 +1,9 @@
 import IWish from "./model/IWish";
 
-const getMyWishes = async () : Promise<IWish[] | null> => {
+const getwishList = async (id: string) : Promise<IWish[] | null> => {
   const token = sessionStorage.getItem('authToken');
   try {
-    const response = await fetch('http://localhost:3000/wish/list/me', {
+    const response = await fetch(`http://localhost:3000/wish/list/${id}`, {
       method: 'GET',
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -19,4 +19,4 @@ const getMyWishes = async () : Promise<IWish[] | null> => {
   }
 };
 
-export default getMyWishes;
+export default getwishList;

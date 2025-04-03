@@ -11,8 +11,6 @@ interface AppContextType {
   setIsModalOpen: (value: boolean) => void;
   isLoginForm: boolean | null; //true - вход, false - регистрация
   setIsLoginForm: (value: boolean | null) => void;
-  myWishes: IWish[];
-  setMyWishes: (arr: IWish[]) => void;
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
