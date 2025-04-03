@@ -20,7 +20,7 @@ export default function Header({ isUserLogin }: HeaderProp) {
     throw new Error('AppContext null');
   }
 
-  const { isModalActive, setIsModalOpen, setIsLoginForm } = context;
+  const { isModalOpen, setIsModalOpen, setIsLoginForm } = context;
   console.log('isUserLogin', isUserLogin);
 
   const openModal = (type: boolean) => {
@@ -68,7 +68,7 @@ export default function Header({ isUserLogin }: HeaderProp) {
               />
             </LoginSignUpMenu>
           )}
-          <Modal isActive={isModalActive} closeModal={onCloseModal}>
+          <Modal isActive={isModalOpen} closeModal={onCloseModal}>
             <LoginSignUpForm />
           </Modal>
         </HeaderContainer>

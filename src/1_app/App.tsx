@@ -3,19 +3,23 @@ import { createContext, useState, useEffect } from 'react';
 import checkToken from '../5_entities/User/asyncActions/checkToken';
 import { useAppDispatch } from '../5_entities/hooks/useAppDispatch';
 import { userSliceActions } from '../5_entities/User/userSlice';
+import IWish from '../5_entities/Wish/model/IWish';
+import IUser from '../5_entities/User/model/IUser';
 
 interface AppContextType {
-  isModalActive: boolean;
+  isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
   isLoginForm: boolean | null; //true - вход, false - регистрация
   setIsLoginForm: (value: boolean | null) => void;
+  myWishes: IWish[];
+  setMyWishes: (arr: IWish[]) => void;
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
 
 function App() {
   const dispatch = useAppDispatch();
-  const [isModalActive, setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [formType, setIsLoginForm] = useState<boolean | null>(null);
   const [isTokenVerificationComplete, setIsTokenVerificationComplete] = useState(false);
 
@@ -32,7 +36,7 @@ function App() {
   return (
     <AppContext.Provider
       value={{
-        isModalActive: isModalActive,
+        isModalOpen: isModalOpen,
         setIsModalOpen: setIsModalOpen,
         isLoginForm: formType,
         setIsLoginForm: setIsLoginForm,

@@ -1,16 +1,13 @@
-const deleteWish = async (wishId: string) => {
+export const deleteFriend = async (friendId: string) => {
   const token = sessionStorage.getItem('authToken');
   try {
     if (!token) {
       console.error('Пользователь не авторизован');
       return null;
     }
-
-    console.log('wishId', wishId, typeof wishId);
-
-    const response = await fetch(`http://localhost:3000/wish/${wishId}`, {
-      method: 'DELETE',
-      headers: { Authorization: `Bearer ${token}` },
+    const response = await fetch(`http://localhost:3000/deleteFriend/${friendId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
     });
 
     if (!response.ok) throw new Error('Ошибка запроса');
@@ -19,5 +16,3 @@ const deleteWish = async (wishId: string) => {
     return null;
   }
 };
-
-export default deleteWish;

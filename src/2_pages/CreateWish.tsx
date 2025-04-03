@@ -9,8 +9,8 @@ import CreateWishForm from '../3_widgets/form/CreateWishForm';
 export default function CreateWish() {
   const navigate = useNavigate();
   const onClickSave = () => {
-    document.querySelector('form')?.requestSubmit()
-    navigate('/MyWishes')
+    document.querySelector('form')?.requestSubmit();
+    navigate(-1);
   }
   return (
     <ContentContainer>
@@ -28,7 +28,7 @@ export default function CreateWish() {
             <Button
               isLink={false}
               btnColor={buttonColors.whiteCancel}
-              onClick={() => navigate('/MyWishes')}
+              onClick={() => navigate(-1)}
             >
               Отмена
             </Button>

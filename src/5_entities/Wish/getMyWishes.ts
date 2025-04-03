@@ -1,4 +1,6 @@
-const getMyWishes = async () => {
+import IWish from "./model/IWish";
+
+const getMyWishes = async () : Promise<IWish[] | null> => {
   const token = sessionStorage.getItem('authToken');
   try {
     const response = await fetch('http://localhost:3000/wish/myWishes', {

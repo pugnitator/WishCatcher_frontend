@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import ListRenderer, { TListItem } from '../4_features/ui/ListRenderer';
+import ListRenderer from '../4_features/ui/ListRenderer';
 import ContentContainer from '../6_shared/ui/ContentContainer';
 import PageWrapper from '../6_shared/ui/PageWrapper';
 import PageBody from '../6_shared/ui/PageBody';
@@ -11,23 +11,28 @@ import Button from '../6_shared/ui/buttons/Button';
 import { buttonColors } from '../6_shared/ui/buttons/Button';
 import { useNavigate } from 'react-router-dom';
 import shareIcon from '../assets/icons/shareIcon.svg';
-import { Outlet } from 'react-router-dom';
 import deleteWish from '../5_entities/Wish/deleteWish';
 import Paging from '../4_features/ui/Paging';
-import SearchBar from '../3_widgets/SearchBar';
+import IWish from '../5_entities/Wish/model/IWish';
+
 
 export default function MyWishes() {
-  const [itemList, setItemList] = useState<TListItem[]>([]);
+  const [itemList, setItemList] = useState<IWish[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getMyWishes().then((res) => {
-      if (Array.isArray(res)) {
-        console.log('wishes', res);
-        setItemList(res);
-      }
-    });
+    //TODO: перевести список на стейт и обновлять локально
+
+    // вынужденный shit, чтобы успеть к релизу, иначе запрос списка шёл раньше, чем успевало
+    // добавляться новое пожелание
+    setTimeout(() => {
+      getMyWishes().then((res) => {
+        if (Array.isArray(res)) {
+          setItemList(res);
+        }
+      });
+    }, 0.01);
   }, []);
 
   const itemsPerPage = 6;
@@ -89,7 +94,11 @@ export default function MyWishes() {
                 actions={wishActions}
               />
               {itemList.length > itemsPerPage && (
-                <Paging totalPages={pagesNumber} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+                <Paging
+                  totalPages={pagesNumber}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                />
               )}
             </ListContainer>
           ) : (
@@ -97,7 +106,6 @@ export default function MyWishes() {
           )}
         </PageBody>
       </PageWrapper>
-      <Outlet />
     </ContentContainer>
   );
 }

@@ -1,10 +1,51 @@
-import ContentContainer from "../6_shared/ui/ContentContainer";
-import PageWrapper from "../6_shared/ui/PageWrapper";
-import PageBody from "../6_shared/ui/PageBody";
-import styled from "styled-components";
-
+import ContentContainer from '../6_shared/ui/ContentContainer';
+import PageWrapper from '../6_shared/ui/PageWrapper';
+import PageBody from '../6_shared/ui/PageBody';
+import styled from 'styled-components';
+import ListRenderer from '../4_features/ui/ListRenderer';
+import { useState, useEffect } from 'react';
+import IUser from '../5_entities/User/model/IUser';
+import { getMyFriends } from '../5_entities/friendsApi/getMyFriends';
+import MyFriendRow from '../3_widgets/items/MyFriendRow';
+import Paging from '../4_features/ui/Paging';
+import EmptyListMessage from '../6_shared/ui/EmptyListMessage';
+import { deleteFriend } from '../5_entities/friendsApi/deleteFriend';
 
 export default function MyFriends() {
+  const [itemList, setItemList] = useState<IUser[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    //TODO: перевести список на стейт и обновлять локально
+    // вынужденный shit, чтобы успеть к релизу, иначе запрос списка шёл раньше, чем успевало
+    // добавляться новое пожелание
+    setTimeout(() => {
+      getMyFriends().then((res) => {
+        if (Array.isArray(res)) {
+          setItemList(res);
+        }
+      });
+    }, 0.01);
+  }, []);
+
+  const itemsPerPage = 6;
+  const pagesNumber = Math.ceil(itemList.length / itemsPerPage);
+
+  const currentItemList = itemList.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const friendActions = {
+    delete: (friendId: string) => {
+      deleteFriend(friendId);
+      setItemList((prevList) => prevList.filter((wish) => wish.id !== friendId));
+    },
+    open: (friend: IUser) => {
+      // тут переходим на страницу друга
+    }
+  };
+
   return (
     <ContentContainer>
       <PageWrapper>
@@ -12,7 +53,24 @@ export default function MyFriends() {
           <h1>Мои друзья</h1>
         </PageHeader>
         <PageBody>
-          Привет
+          {itemList.length > 0 ? (
+            <ListContainer>
+              <ListRenderer
+                itemList={currentItemList}
+                Item={MyFriendRow}
+                actions={friendActions}
+              />
+              {itemList.length > itemsPerPage && (
+                <Paging
+                  totalPages={pagesNumber}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                />
+              )}
+            </ListContainer>
+          ) : (
+            <EmptyListMessage />
+          )}
         </PageBody>
       </PageWrapper>
     </ContentContainer>
@@ -20,10 +78,22 @@ export default function MyFriends() {
 }
 
 const PageHeader = styled.div`
-    display: flex;
-    justify-content: start;
-    align-items: center;
+  display: flex;
+  justify-content: start;
+  align-items: center;
 
-    width: 100%;
-    height: 60px;
-`
+  width: 100%;
+  height: 60px;
+`;
+
+const ListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 30px;
+
+  width: 100%;
+  height: 100%;
+`;

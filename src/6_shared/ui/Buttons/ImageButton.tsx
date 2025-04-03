@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Button, { buttonColors, ButtonProp } from './Button';
+import Button, { buttonColors } from './Button';
 
 interface ImageButtonProp {
   children: React.ReactNode;
@@ -19,16 +19,17 @@ export default function ImageButton({ children, onClick }: ImageButtonProp) {
 }
 
 const StyledButton = styled(Button)`
+  padding: 0;
   width: fit-content;
-  aspect-ratio: 1;
-  svg {
+  height: fit-content;
+  img {
     transition: fill 0.3s ease;
   }
 
   &:hover {
     background-color: transparent;
 
-    svg {
+    img {
       fill-opacity: 60%;
       stroke-opacity: 60%;
     }
