@@ -41,7 +41,7 @@ const Layout = styled.div<LayoutProp>`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   background: ${prop => prop.isLogin ? `var(--bg-color-user)` : `var(--bg-color-guest)`};
   border: none;
 `;
