@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import FormInput from '../../6_shared/ui/form/FormInput';
 import FormTextarea from '../../6_shared/ui/form/FormTextArea';
 import createWish from '../../5_entities/Wish/addWish';
+import IWish from '../../5_entities/Wish/model/IWish';
 
 type FormValues = {
   name: string;
@@ -10,7 +11,11 @@ type FormValues = {
   comment?: string;
 };
 
-export default function CreateWishForm() {
+interface CreateWishFormProps {
+  onSuccess: (newWish: IWish) => void; // Callback для успешного создания
+}
+
+export default function CreateWishForm({ onSuccess }: CreateWishFormProps) {
   const form = useForm<FormValues>({
     mode: 'onTouched',
     defaultValues: {
@@ -24,23 +29,29 @@ export default function CreateWishForm() {
     formState: { errors },
   } = form;
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
-    // const {name, link, comment} = data;
-    createWish({...data})
-    .then(() => {
-      console.log('Виш успешно создан')
-    })
-    .catch(() => console.log('Ошибка создания виша'))
-  }
+  const onSubmit = async (data: FormValues) => {
+    try {
+      const newWish = await createWish({ ...data });
+      console.log('Виш успешно создан:', newWish);
+      onSuccess(newWish);
+    } catch (e) {
+      console.log('Ошибка создания виша', e);
+    }
+  };
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <FormInput
         register={register('name', {
           required: 'Обязательно для заполнения',
-          minLength: { value: 3, message: 'Минимальная длина названия - 3 символа'},
-          maxLength: {value: 50, message: 'Максимальная длина названия - 50 символов'}
+          minLength: {
+            value: 3,
+            message: 'Минимальная длина названия - 3 символа',
+          },
+          maxLength: {
+            value: 50,
+            message: 'Максимальная длина названия - 50 символов',
+          },
         })}
         title={'Название пожелания'}
         placeholder="Название"
@@ -49,9 +60,9 @@ export default function CreateWishForm() {
       <FormInput
         register={register('link', {
           pattern: {
-            value: /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i, 
-            message: 'Неверный формат URL'
-          }
+            value: /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i,
+            message: 'Неверный формат URL',
+          },
         })}
         title={'Ссылка на пожелание'}
         placeholder="https://aliexpress.ru/item/1005008665763250.html"
@@ -60,7 +71,10 @@ export default function CreateWishForm() {
       />
       <FormTextarea
         register={register('comment', {
-          maxLength: {value: 1000, message: 'Максимальная длина комментария - 1000 символов'}
+          maxLength: {
+            value: 1000,
+            message: 'Максимальная длина комментария - 1000 символов',
+          },
         })}
         title={'Комментарий'}
         placeholder="Комментарий"

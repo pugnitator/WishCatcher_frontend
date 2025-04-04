@@ -1,44 +1,34 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import ListRenderer from '../4_features/ui/ListRenderer';
 import ContentContainer from '../6_shared/ui/ContentContainer';
 import PageWrapper from '../6_shared/ui/PageWrapper';
 import PageBody from '../6_shared/ui/PageBody';
 import MyWishRow from '../3_widgets/items/MyWishRow';
 import EmptyListMessage from '../6_shared/ui/EmptyListMessage';
-import getMyWishes from '../5_entities/Wish/getMyWishes';
 import Button from '../6_shared/ui/buttons/Button';
 import { buttonColors } from '../6_shared/ui/buttons/Button';
 import { useNavigate } from 'react-router-dom';
 import shareIcon from '../assets/icons/shareIcon.svg';
 import deleteWish from '../5_entities/Wish/deleteWish';
 import Paging from '../4_features/ui/Paging';
-import IWish from '../5_entities/Wish/model/IWish';
-
+import { AppContext } from '../1_app/App';
 
 export default function MyWishes() {
-  const [itemList, setItemList] = useState<IWish[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
+  const context = useContext(AppContext);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
-    //TODO: перевести список на стейт и обновлять локально
+  if (!context) {
+    throw new Error('MyWishes must be used within an AppContext.Provider');
+  }
 
-    // вынужденный shit, чтобы успеть к релизу, иначе запрос списка шёл раньше, чем успевало
-    // добавляться новое пожелание
-    setTimeout(() => {
-      getMyWishes().then((res) => {
-        if (Array.isArray(res)) {
-          setItemList(res);
-        }
-      });
-    }, 0.01);
-  }, []);
+  const { wishes, setWishes, fetchWishes } = context;
 
   const itemsPerPage = 5;
-  const pagesNumber = Math.ceil(itemList.length / itemsPerPage);
+  const pagesNumber = Math.ceil(wishes.length / itemsPerPage);
 
-  const currentItemList = itemList.slice(
+  const currentwishes = wishes.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -49,8 +39,14 @@ export default function MyWishes() {
 
   const wishActions = {
     delete: (wishId: string) => {
-      deleteWish(wishId);
-      setItemList((prevList) => prevList.filter((wish) => wish.id !== wishId));
+      deleteWish(wishId)
+        .then(() => {
+          setWishes(wishes.filter((wish) => wish.id !== wishId));
+        })
+        .catch((e) => {
+          console.error('Ошибка при удалении:', e);
+          fetchWishes();
+        });
     },
   };
 
@@ -59,6 +55,7 @@ export default function MyWishes() {
       <PageWrapper>
         <PageHeader>
           <h1>Мои пожелания</h1>
+
           <Buttons>
             <Button
               isLink={false}
@@ -86,14 +83,14 @@ export default function MyWishes() {
           </Buttons>
         </PageHeader>
         <PageBody>
-          {itemList.length > 0 ? (
+          {wishes.length > 0 ? (
             <ListContainer>
               <ListRenderer
-                itemList={currentItemList}
+                itemList={currentwishes}
                 Item={MyWishRow}
                 actions={wishActions}
               />
-              {itemList.length > itemsPerPage && (
+              {wishes.length > itemsPerPage && (
                 <Paging
                   totalPages={pagesNumber}
                   currentPage={currentPage}
