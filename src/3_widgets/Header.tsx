@@ -44,9 +44,9 @@ export default function Header({ isUserLogin }: HeaderProp) {
             <>
               <nav>
                 <Menu>
-                  <MenuItem text="Мой вишлист" path="/MyWishes" />
-                  <MenuItem text="Друзья" path="/Friends" />
-                  <MenuItem text="Дарю друзьям" path="/GivingToFriends" />
+                  <MenuItem text="Мой вишлист" path="/my-wishes" />
+                  <MenuItem text="Друзья" path="/friends" />
+                  <MenuItem text="Дарю друзьям" path="/giving-to-friends" />
                 </Menu>
               </nav>
               <UserAction />

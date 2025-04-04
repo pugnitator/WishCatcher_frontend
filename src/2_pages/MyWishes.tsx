@@ -63,7 +63,7 @@ export default function MyWishes() {
             <Button
               isLink={false}
               btnColor={buttonColors.white}
-              onClick={() => navigate('/CreateWish')}
+              onClick={() => navigate('/create-wish')}
             >
               + Создать пожелание
             </Button>

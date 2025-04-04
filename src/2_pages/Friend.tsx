@@ -1,105 +1,141 @@
-import styled from "styled-components";
-import ListRenderer from "../4_features/ui/ListRenderer";
-import Paging from "../4_features/ui/Paging";
-import IUser from "../5_entities/User/model/IUser";
-import Button, { buttonColors } from "../6_shared/ui/buttons/Button";
-import ContentContainer from "../6_shared/ui/ContentContainer";
-import EmptyListMessage from "../6_shared/ui/EmptyListMessage";
-import PageBody from "../6_shared/ui/PageBody";
-import PageWrapper from "../6_shared/ui/PageWrapper";
-import FriendWidget from "../3_widgets/FriendWidget";
-import { useState, useEffect } from "react";
-import IWish from "../5_entities/Wish/model/IWish";
-import { useNavigate } from "react-router-dom";
-import getwishList from "../5_entities/Wish/getWishList";
+import styled from 'styled-components';
+import ListRenderer from '../4_features/ui/ListRenderer';
+import Paging from '../4_features/ui/Paging';
+import Button, { buttonColors } from '../6_shared/ui/buttons/Button';
+import ContentContainer from '../6_shared/ui/ContentContainer';
+import EmptyListMessage from '../6_shared/ui/EmptyListMessage';
+import PageBody from '../6_shared/ui/PageBody';
+import PageWrapper from '../6_shared/ui/PageWrapper';
+import FriendWidget from '../3_widgets/FriendWidget';
+import { useState, useEffect } from 'react';
+import IWish from '../5_entities/Wish/model/IWish';
+import { useNavigate, useParams } from 'react-router-dom';
+import getwishList from '../5_entities/Wish/getWishList';
+import useGetFriend from '../5_entities/hooks/useGetFriend';
+import MyWishRow from '../3_widgets/items/MyWishRow';
+import store from '../5_entities/store';
 
+export default function Friend() {
+  console.log('Рендер Friend начался');
+  // console.log('state', currentUser);
 
+  const [itemList, setItemList] = useState<IWish[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isMyFriend, setIsMyFriend] = useState(false);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { user, loading } = useGetFriend({ idFromParams: id || '' });
 
-
-export default function Friend(friend: IUser) {
-    const [itemList, setItemList] = useState<IWish[]>([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const navigate = useNavigate();
-
-    const {id, name, login, birthday} = friend;
-  
-    useEffect(() => {
+  useEffect(() => {
+    // console.log('useEffect в Friend сработал', user);
+    if (user) {
+      const currentUser = store.getState();
+      setIsMyFriend(
+        currentUser?.user?.currentUser?.friends?.includes(user.id) ?? false
+      );
       //TODO: перевести список на стейт и обновлять локально
-  
-      // вынужденный shit, чтобы успеть к релизу, иначе запрос списка шёл раньше, чем успевало
-      // добавляться новое пожелание
+      // вынужденный shit
       setTimeout(() => {
-        getwishList(id).then((res) => {
-          if (Array.isArray(res)) {
-            setItemList(res);
-          }
-        });
+        getwishList(user.id)
+          .then((res) => {
+            // console.log('список подарков друга', res);
+            if (Array.isArray(res)) {
+              setItemList(res);
+            }
+          })
+          .catch((err) => console.error('Ошибка в getwishList:', err));
       }, 0.01);
-    }, []);
+    }
+  }, [user]);
 
+  if (!id) {
+    navigate('/');
+    throw new Error('В параметрах нет id юзера');
+  }
 
+  if (loading) {
+    return <div>Загрузка...</div>;
+  }
 
+  if (!user) {
+    console.error('Пользователь не загружен');
+    throw new Error('Не удалось получить данные юзера');
+  }
 
-    return (
-        <ContentContainer>
-        <PageWrapper>
-          <PageHeader>
-            <h1 className="visually-hidden">Страница друга</h1>
-            <FriendWidget
-                name={name ?? login}
-                birthday={birthday}
-            />
-            <Buttons>
+  const { name, login, birthday } = user;
+
+  const itemsPerPage = 5;
+  const pagesNumber = Math.ceil(itemList.length / itemsPerPage);
+
+  const currentItemList = itemList.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const wishActions = {
+    booking: (wishId: string) => {
+      //   bookWish(wishId);
+      console.log('Забронирован', wishId);
+    },
+  };
+
+  return (
+    <ContentContainer>
+      <PageWrapper>
+        <PageHeader>
+          <h1 className="visually-hidden">Страница друга</h1>
+          <FriendWidget name={name ?? login} birthday={birthday} />
+          <Buttons>
+            {isMyFriend ? (
+              <Button
+                isLink={false}
+                btnColor={buttonColors.whiteCancel}
+                onClick={() => console.log('Удален')}
+              >
+                Удалить из друзей
+              </Button>
+            ) : (
               <Button
                 isLink={false}
                 btnColor={buttonColors.white}
-                onClick={() => navigate('/CreateWish')}
+                onClick={() => console.log('Добавлен')}
               >
-                + Создать пожелание
+                + Добавить в друзья
               </Button>
-              <Button
-                isLink={false}
-                btnColor={buttonColors.yellow}
-                // onClick={onClickShare}
-              >
-                <ButtonContent>
-                  {/* <img
-                    src={shareIcon}
-                    alt="Поделиться списком пожеланий"
-                    width="16px"
-                    height="16px"
-                    loading="lazy"
-                  /> */}
-                  <span>Поделиться</span>
-                </ButtonContent>
-              </Button>
-            </Buttons>
-          </PageHeader>
-          <PageBody>
-            {itemList.length > 0 ? (
-              <ListContainer>
-                <ListRenderer
-                  itemList={currentItemList}
-                  Item={MyWishRow}
-                  actions={wishActions}
-                />
-                {itemList.length > itemsPerPage && (
-                  <Paging
-                    totalPages={pagesNumber}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                  />
-                )}
-              </ListContainer>
-            ) : (
-              <EmptyListMessage />
             )}
-          </PageBody>
-        </PageWrapper>
-      </ContentContainer>
-    );
+            <Button
+              isLink={false}
+              btnColor={buttonColors.whiteCancel}
+              onClick={() => navigate(-1)}
+            >
+              Назад
+            </Button>
+          </Buttons>
+        </PageHeader>
+        <PageBody>
+          {itemList.length > 0 ? (
+            <ListContainer>
+              <ListRenderer
+                itemList={currentItemList}
+                Item={MyWishRow}
+                actions={wishActions}
+              />
+              {itemList.length > itemsPerPage && (
+                <Paging
+                  totalPages={pagesNumber}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                />
+              )}
+            </ListContainer>
+          ) : (
+            <EmptyListMessage />
+          )}
+        </PageBody>
+      </PageWrapper>
+    </ContentContainer>
+  );
 }
-
 
 const ListContainer = styled.div`
   display: flex;

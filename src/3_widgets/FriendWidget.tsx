@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import userIcon from '../assets/icons/userIcon.svg';
 
 interface FriendWidgetProp{
     name: string;
@@ -8,10 +9,10 @@ interface FriendWidgetProp{
 export default function FriendWidget({ name, birthday } : FriendWidgetProp) {
   return (
     <Container>
-      <img src="" alt="" width="" height="" loading="lazy" />
+      <StyledImg src={userIcon} alt="" width="60" height="60" loading="lazy" />
       <FriendInfo>
         <Title>{name}</Title>
-        <Birthday>{`День рождения: ${birthday}`}</Birthday>
+        <Birthday>{`День рождения: ${birthday ?? 'нинаю'}`}</Birthday>
       </FriendInfo>
     </Container>
   );
@@ -26,11 +27,16 @@ const Container = styled.article`
     color: var(--color-light);
 `;
 
+const StyledImg = styled.img`
+  border: var(--border);
+  border-radius: 15px;
+`
+
 const FriendInfo = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: start;
-    align-items: center;
+    justify-content: center;
+    align-items: start;
     gap: 5px;
 `;
 

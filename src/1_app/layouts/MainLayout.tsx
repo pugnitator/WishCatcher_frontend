@@ -9,6 +9,7 @@ import MyWishes from '../../2_pages/MyWishes';
 import MyFriends from '../../2_pages/MyFriends';
 import GivingToFriends from '../../2_pages/GivingToFriends';
 import CreateWish from '../../2_pages/CreateWish';
+import Friend from '../../2_pages/Friend';
 
 export default function MainLayout() {
   console.log('Я в мэйн лэйауте');
@@ -19,11 +20,13 @@ export default function MainLayout() {
     <Layout isLogin={isUserLogin}>
       <Header isUserLogin={isUserLogin}/> 
       <Routes>
-        <Route path="/" element={isUserLogin ? <Navigate to='/MyWishes' /> : <Home />} />
-        <Route path="/MyWishes" element={isUserLogin ? <MyWishes /> : <Navigate to='/' />} />
-        <Route path="/CreateWish" element={isUserLogin ? <CreateWish /> : <Navigate to='/' />} />
-        <Route path="/Friends" element={isUserLogin ? <MyFriends /> : <Navigate to='/' />} />
-        <Route path="/GivingToFriends" element={isUserLogin ? <GivingToFriends /> : <Navigate to='/' />} />
+        <Route path="/" element={isUserLogin ? <Navigate to='/my-wishes' /> : <Home />} />
+        <Route path="/my-wishes" element={isUserLogin ? <MyWishes /> : <Navigate to='/' />} />
+        <Route path="/create-wish" element={isUserLogin ? <CreateWish /> : <Navigate to='/' />} />
+        <Route path="/friends" element={isUserLogin ? <MyFriends /> : <Navigate to='/' />} />
+        <Route path="/friend/:id" element={isUserLogin ? <Friend /> : <Navigate to='/' />} />
+        <Route path="/my-wishes" element={isUserLogin ? <MyWishes /> : <Navigate to='/' />} />
+        <Route path="/giving-to-friends" element={isUserLogin ? <GivingToFriends /> : <Navigate to='/' />} />
         <Route path="*" element={<Navigate to='/' />} />
       </Routes>
       <Footer isUserLogin={isUserLogin}/>

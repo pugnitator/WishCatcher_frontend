@@ -12,12 +12,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  align-items: center;
+  align-items: start;
 
   flex-grow: 1;
 
   width: 100%;
-  /* min-height: 600px; */
+  min-height: 500px;
   padding: 30px;
 
   background-color: var(--color-light-alt);

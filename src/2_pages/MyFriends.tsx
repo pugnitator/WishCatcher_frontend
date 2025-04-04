@@ -10,18 +10,20 @@ import MyFriendRow from '../3_widgets/items/MyFriendRow';
 import Paging from '../4_features/ui/Paging';
 import EmptyListMessage from '../6_shared/ui/EmptyListMessage';
 import { deleteFriend } from '../5_entities/friendsApi/deleteFriend';
+import { useNavigate } from 'react-router-dom';
 
 export default function MyFriends() {
   const [itemList, setItemList] = useState<IUser[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     //TODO: перевести список на стейт и обновлять локально
-    // вынужденный shit, чтобы успеть к релизу, иначе запрос списка шёл раньше, чем успевало
-    // добавляться новое пожелание
+    // вынужденный shit
     setTimeout(() => {
       getMyFriends().then((res) => {
         if (Array.isArray(res)) {
+          console.log('список друзей', res)
           setItemList(res);
         }
       });
@@ -39,11 +41,14 @@ export default function MyFriends() {
   const friendActions = {
     delete: (friendId: string) => {
       deleteFriend(friendId);
-      setItemList((prevList) => prevList.filter((wish) => wish.id !== friendId));
+      setItemList((prevList) =>
+        prevList.filter((friend) => friend.id !== friendId)
+      );
     },
-    open: (friend: IUser) => {
-      // тут переходим на страницу друга
-    }
+    open: (friendId: string) => {
+      console.log('---NAVIGATE FRIEND---', friendId, new Date().toISOString());
+      navigate(`/friend/${friendId}`);
+    },
   };
 
   return (

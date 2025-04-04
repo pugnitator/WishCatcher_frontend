@@ -5,18 +5,19 @@ import ImageButton from '../../6_shared/ui/buttons/ImageButton';
 import userIcon from '../../assets/icons/userIcon.svg';
 import goToListIcon from '../../assets/icons/viewFrindListIcon.svg';
 import deleteIcon from '../../assets/icons/DeleteIcon.svg';
+import React from 'react';
 
 interface MyFriendRowProps {
   data: IUser;
   actions:   {
     delete: (friendId: string) => void;
-    open: (friend: IUser) => void;
+    open: (friendId: string) => void;
   };
 }
 
-export default function MyFriendRow({ data, actions }: MyFriendRowProps) {
+function MyFriendRow({ data, actions }: MyFriendRowProps) {
   const { id, name } = data;
-  console.log('wishData', data, id);
+  console.log('friendData', data, id);
 
   return (
     <ListItemWrapper>
@@ -25,7 +26,7 @@ export default function MyFriendRow({ data, actions }: MyFriendRowProps) {
         <span>{name}</span>
       </Name>
       <ButtonWrapper>
-        <ImageButton onClick={() => actions.open(data)}>
+        <ImageButton onClick={() => actions.open(id)}>
           <img
             src={goToListIcon}
             alt="Перейти к списку пожеланий друга"
@@ -65,3 +66,5 @@ const ButtonWrapper = styled.div`
 
   padding-inline: 20px;
 `;
+
+export default React.memo(MyFriendRow);
