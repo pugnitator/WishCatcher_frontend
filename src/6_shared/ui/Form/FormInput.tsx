@@ -7,6 +7,7 @@ interface FormInputProp {
   placeholder: string;
   type?: string;
   errorMessage?: string;
+  disabled?: boolean;
 }
 
 export default function FormInput({
@@ -15,11 +16,12 @@ export default function FormInput({
   placeholder,
   type,
   errorMessage,
+  disabled,
 }: FormInputProp) {
   return (
     <Container>
       <label>{title}</label>
-      <StyledInput {...register} type={type ?? 'text'} placeholder={placeholder} />
+      <StyledInput {...register} type={type ?? 'text'} placeholder={placeholder} disabled={disabled}/>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </Container>
   );

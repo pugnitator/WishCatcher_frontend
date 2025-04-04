@@ -12,7 +12,7 @@ type FormValues = {
 };
 
 interface CreateWishFormProps {
-  onSuccess: (newWish: IWish) => void; // Callback для успешного создания
+  onSuccess: (newWish: IWish) => void;
 }
 
 export default function CreateWishForm({ onSuccess }: CreateWishFormProps) {
@@ -30,6 +30,7 @@ export default function CreateWishForm({ onSuccess }: CreateWishFormProps) {
   } = form;
 
   const onSubmit = async (data: FormValues) => {
+    console.log('---CreateWish---', data);
     try {
       const newWish = await createWish({ ...data });
       console.log('Виш успешно создан:', newWish);

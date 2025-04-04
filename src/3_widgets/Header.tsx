@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Logo from '../6_shared/ui/Logo';
 import MenuItem from '../6_shared/ui/menu/MenuItem';
-import { UserAction } from '../4_features/ui/UserAction';
+import { UserActions } from '../4_features/ui/UserAction'
 import Button from '../6_shared/ui/buttons/Button';
 import { useContext } from 'react';
 import Modal from './modals/Modal';
@@ -11,19 +11,14 @@ import { LoginSignUpForm } from './form/LoginSignUpForm';
 import ContentContainer from '../6_shared/ui/ContentContainer';
 import store from '../5_entities/store';
 
-// interface HeaderProp {
-//   isUserLogin: boolean;
-// }
-
 export default function Header() {
   const context = useContext(AppContext);
-  const isUserLogin = Boolean(store.getState().user.currentUser)
   if (!context) {
     throw new Error('AppContext null');
   }
 
   const { isModalOpen, setIsModalOpen, setIsLoginForm } = context;
-  // console.log('isUserLogin', isUserLogin);
+  const isUserLogin = Boolean(store.getState().user.currentUser);
 
   const openModal = (type: boolean) => {
     setIsLoginForm(type);
@@ -51,7 +46,7 @@ export default function Header() {
                   <MenuItem text="Дарю друзьям" path="/giving-to-friends" />
                 </Menu>
               </nav>
-              <UserAction />
+              <UserActions />
             </>
           )}
           {!isUserLogin && (
