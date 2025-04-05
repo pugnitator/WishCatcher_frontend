@@ -4,7 +4,6 @@ import checkToken from '../5_entities/User/asyncActions/checkToken';
 import { useAppDispatch } from '../5_entities/hooks/useAppDispatch';
 import { userSliceActions } from '../5_entities/User/userSlice';
 import IWish from '../5_entities/Wish/model/IWish';
-import IUser from '../5_entities/User/model/IUser';
 import getMyWishes from '../5_entities/Wish/getMyWishes';
 
 interface AppContextType {

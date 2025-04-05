@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import userIcon from '../../assets/icons/userIcon.svg';
-import store from '../../5_entities/store';
 import { useNavigate } from 'react-router-dom';
 import ImageButton from '../../6_shared/ui/buttons/ImageButton';
+import { useAppSelector } from '../../5_entities/hooks/useAppSelector';
 
 export function UserActions() {
-  const user = store.getState().user.currentUser;
+  const user = useAppSelector((state) => state.user.currentUser);
   const navigate = useNavigate();
   return (
     <Container>

@@ -39,6 +39,7 @@ const Container = styled.div`
 
 const StyledInput = styled.input`
   background-color: var(--color-light);
+  opacity: ${props => props.disabled ? '60%' : '100%'};
 `;
 
 const ErrorMessage = styled.p`

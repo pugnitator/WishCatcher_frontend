@@ -11,6 +11,7 @@ import Paging from '../4_features/ui/Paging';
 import EmptyListMessage from '../6_shared/ui/EmptyListMessage';
 import { deleteFriend } from '../5_entities/friendsApi/deleteFriend';
 import { useNavigate } from 'react-router-dom';
+import ListContainer from '../6_shared/ui/list/ListContainer';
 
 export default function MyFriends() {
   const [itemList, setItemList] = useState<IUser[]>([]);
@@ -89,16 +90,4 @@ const PageHeader = styled.div`
 
   width: 100%;
   height: 60px;
-`;
-
-const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-
-  gap: 30px;
-
-  width: 100%;
-  height: 100%;
 `;

@@ -16,14 +16,14 @@ interface MyFriendRowProps {
 }
 
 function MyFriendRow({ data, actions }: MyFriendRowProps) {
-  const { id, name } = data;
+  const { id, name, login } = data;
   console.log('friendData', data, id);
 
   return (
     <ListItemWrapper>
       <Name>
         <img src={userIcon} alt="" width="40px" height="40px" loading="lazy" />
-        <span>{name}</span>
+        <span>{name ?? login}</span>
       </Name>
       <ButtonWrapper>
         <ImageButton onClick={() => actions.open(id)}>

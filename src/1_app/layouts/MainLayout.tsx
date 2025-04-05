@@ -23,7 +23,7 @@ export default function MainLayout() {
       <Header /> 
       <Routes>
         <Route path="/" element={isUserLogin ? <Navigate to='/my-wishes' /> : <Home />} />
-        <Route path="/loader" element={isUserLogin ? <LoaderPage /> : <Home />} />
+        <Route path="/loader" element={<LoaderPage />} />
         <Route path="/my-wishes" element={isUserLogin ? <MyWishes /> : <Navigate to='/' />} />
         <Route path="/my-profile" element={isUserLogin ? <MyAccount /> : <Navigate to='/' />} />
         <Route path="/create-wish" element={isUserLogin ? <CreateWish /> : <Navigate to='/' />} />
@@ -48,6 +48,7 @@ const Layout = styled.div<LayoutProp>`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 100%;
   min-height: 100vh;
   background: ${prop => prop.isLogin ? `var(--bg-color-user)` : `var(--bg-color-guest)`};
   border: none;

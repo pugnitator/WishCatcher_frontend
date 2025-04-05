@@ -26,16 +26,17 @@ export default function Modal({ isActive, closeModal, children }: ModalProp) {
 }
 
 const ModalConteiner = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: 0.5;
+  
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.4);
-  position: fixed;
-  top: 0;
-  left: 0;
-  transition: 0.5;
 `;
 
 const ModalContent = styled.div`

@@ -4,12 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import updateUser from '../../5_entities/User/asyncActions/updateUser';
 import FormInput from '../../6_shared/ui/form/FormInput';
 import styled from 'styled-components';
-import IUser from '../../5_entities/User/model/IUser';
 import { useAppDispatch } from '../../5_entities/hooks/useAppDispatch';
 
 interface AccountFormProp {
   isEdit: boolean;
-  // onSuccess: (arg: IUser) => void;
+  onSuccess: (arg: boolean) => void;
 }
 
 type AccountFormValues = {
@@ -17,7 +16,7 @@ type AccountFormValues = {
   name: string;
 };
 
-export default function AccountForm({isEdit} : AccountFormProp) {
+export default function AccountForm({isEdit, onSuccess} : AccountFormProp) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = store.getState().user?.currentUser;
@@ -45,8 +44,8 @@ export default function AccountForm({isEdit} : AccountFormProp) {
 
   const onSubmit = async (data: AccountFormValues) => {
     try {
-      const editedUser = await dispatch(updateUser(data)).unwrap();
-      // onSuccess(editedUser);
+      await dispatch(updateUser(data)).unwrap();
+      onSuccess(false);
     } catch (e) {
       console.log('Ошибка редактирования', e);
     }

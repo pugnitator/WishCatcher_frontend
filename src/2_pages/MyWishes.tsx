@@ -13,8 +13,12 @@ import shareIcon from '../assets/icons/shareIcon.svg';
 import deleteWish from '../5_entities/Wish/deleteWish';
 import Paging from '../4_features/ui/Paging';
 import { AppContext } from '../1_app/App';
+import ListContainer from '../6_shared/ui/list/ListContainer';
+import Modal from '../3_widgets/modals/Modal';
+import Loader from '../6_shared/ui/Loader';
 
 export default function MyWishes() {
+  const [isModalOpen, setIsModalOpen ] = useState(false);
   const navigate = useNavigate();
   const context = useContext(AppContext);
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,6 +29,10 @@ export default function MyWishes() {
 
   const { wishes, setWishes, fetchWishes } = context;
 
+  if(wishes.length < 1) {
+    fetchWishes();
+  }
+
   const itemsPerPage = 5;
   const pagesNumber = Math.ceil(wishes.length / itemsPerPage);
 
@@ -34,7 +42,7 @@ export default function MyWishes() {
   );
 
   const onClickShare = () => {
-    console.log('Делимся');
+    setIsModalOpen(true);
   };
 
   const wishActions = {
@@ -50,74 +58,71 @@ export default function MyWishes() {
     },
   };
 
-  return (
-    <ContentContainer>
-      <PageWrapper>
-        <PageHeader>
-          <h1>Мои пожелания</h1>
+  const onCloseModal = () => {
+    setIsModalOpen(false);
+    console.log('закрыть модалку');
+  };
 
-          <Buttons>
-            <Button
-              isLink={false}
-              btnColor={buttonColors.white}
-              onClick={() => navigate('/create-wish')}
-            >
-              + Создать пожелание
-            </Button>
-            <Button
-              isLink={false}
-              btnColor={buttonColors.yellow}
-              onClick={onClickShare}
-            >
-              <ButtonContent>
-                <img
-                  src={shareIcon}
-                  alt="Поделиться списком пожеланий"
-                  width="16px"
-                  height="16px"
-                  loading="lazy"
+  return (
+    <>
+      <ContentContainer>
+        <PageWrapper>
+          <PageHeader>
+            <h1>Мои пожелания</h1>
+            <Buttons>
+              <Button
+                isLink={false}
+                btnColor={buttonColors.white}
+                onClick={() => navigate('/create-wish')}
+              >
+                + Создать пожелание
+              </Button>
+              <Button
+                isLink={false}
+                btnColor={buttonColors.yellow}
+                onClick={onClickShare}
+              >
+                <ButtonContent>
+                  <img
+                    src={shareIcon}
+                    alt="Поделиться списком пожеланий"
+                    width="16px"
+                    height="16px"
+                    loading="lazy"
+                  />
+                  <span>Поделиться</span>
+                </ButtonContent>
+              </Button>
+            </Buttons>
+          </PageHeader>
+          <PageBody>
+            {wishes.length > 0 ? (
+              <ListContainer>
+                <ListRenderer
+                  itemList={currentwishes}
+                  Item={MyWishRow}
+                  actions={wishActions}
                 />
-                <span>Поделиться</span>
-              </ButtonContent>
-            </Button>
-          </Buttons>
-        </PageHeader>
-        <PageBody>
-          {wishes.length > 0 ? (
-            <ListContainer>
-              <ListRenderer
-                itemList={currentwishes}
-                Item={MyWishRow}
-                actions={wishActions}
-              />
-              {wishes.length > itemsPerPage && (
-                <Paging
-                  totalPages={pagesNumber}
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
-                />
-              )}
-            </ListContainer>
-          ) : (
-            <EmptyListMessage />
-          )}
-        </PageBody>
-      </PageWrapper>
-    </ContentContainer>
+                {wishes.length > itemsPerPage && (
+                  <Paging
+                    totalPages={pagesNumber}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                  />
+                )}
+              </ListContainer>
+            ) : (
+              <EmptyListMessage />
+            )}
+          </PageBody>
+        </PageWrapper>
+      </ContentContainer>
+      <Modal isActive={isModalOpen} closeModal={onCloseModal}>
+        <Loader text={'Этот функционал в разработке'}/>
+      </Modal>
+    </>
   );
 }
-
-const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-
-  gap: 30px;
-
-  width: 100%;
-  height: 100%;
-`;
 
 const PageHeader = styled.div`
   display: flex;

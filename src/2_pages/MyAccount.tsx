@@ -4,16 +4,23 @@ import PageBody from '../6_shared/ui/PageBody';
 import Button from '../6_shared/ui/buttons/Button';
 import { buttonColors } from '../6_shared/ui/buttons/Button';
 import { useNavigate } from 'react-router-dom';
-import ImageButton from '../6_shared/ui/buttons/ImageButton';
 import styled from 'styled-components';
-import { useState } from 'react';
-import store from '../5_entities/store';
+import { useState, useContext } from 'react';
 import AccountForm from '../3_widgets/form/AccountForm';
-import IUser from '../5_entities/User/model/IUser';
+import { useAppDispatch } from '../5_entities/hooks/useAppDispatch';
+import { userSliceActions } from '../5_entities/User/userSlice';
+import { AppContext } from '../1_app/App';
 
 export default function MyAccount() {
-  const user = store.getState().user.currentUser;
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error('MyWishes must be used within an AppContext.Provider');
+  }
+
+  const { setWishes } = context;
   const [isEdit, setIsEdit] = useState(false);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const onClickEdit = () => {
     setIsEdit(true);
@@ -23,7 +30,13 @@ export default function MyAccount() {
     document.querySelector('form')?.requestSubmit();
   };
 
-  const navigate = useNavigate();
+  const onClickExit = () => {
+    sessionStorage.removeItem('authToken');
+    dispatch(userSliceActions.removeUser());
+    setWishes([]);
+    navigate('/');
+  };
+
   return (
     <ContentContainer>
       <PageWrapper>
@@ -47,17 +60,39 @@ export default function MyAccount() {
                 Сохранить
               </Button>
             )}
-            <Button
-              isLink={false}
-              btnColor={buttonColors.whiteCancel}
-              onClick={() => navigate(-1)}
-            >
-              Назад
-            </Button>
+            {isEdit ? (
+              <Button
+                isLink={false}
+                btnColor={buttonColors.whiteCancel}
+                onClick={() => setIsEdit(false)}
+              >
+                Отмена
+              </Button>
+            ) : (
+              <Button
+                isLink={false}
+                btnColor={buttonColors.whiteCancel}
+                onClick={() => navigate(-1)}
+              >
+                Назад
+              </Button>
+            )}
           </Buttons>
         </PageHeader>
         <PageBody>
-          <AccountForm isEdit={isEdit}/>
+          <FormWrapper>
+            <AccountForm isEdit={isEdit} onSuccess={() => setIsEdit(false)} />
+
+            {!isEdit && (
+              <Button
+                isLink={false}
+                btnColor={buttonColors.red}
+                onClick={onClickExit}
+              >
+                Выйти из аккаунта
+              </Button>
+            )}
+          </FormWrapper>
         </PageBody>
       </PageWrapper>
     </ContentContainer>
@@ -79,4 +114,16 @@ const Buttons = styled.div`
   align-items: center;
 
   gap: 10px;
+`;
+
+const FormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  flex-grow: 1;
+
+  width: var(--form-container-width);
+  max-width: 530px;
 `;

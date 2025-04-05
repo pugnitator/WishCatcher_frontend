@@ -17,7 +17,7 @@ const login = createAsyncThunk(
         console.log('Aщибка в response');
         const error = await response.json();
         return rejectWithValue(
-          `Ошибка регистрации: ${error.message || 'Неизвестная ошибка'}`
+          `Ошибка входа: ${error.message || 'Неизвестная ошибка'}`
         );
       }
 

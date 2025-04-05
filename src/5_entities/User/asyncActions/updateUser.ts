@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export interface UpdateUserProp {
-  login: string;
-  name: string;
+  login?: string;
+  name?: string;
+  friends?: string[];
 }
 
 const updateUser = createAsyncThunk(

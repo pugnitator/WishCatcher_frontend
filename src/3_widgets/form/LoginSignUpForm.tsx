@@ -1,4 +1,4 @@
-import { useRef, useContext } from 'react';
+import { useRef, useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -21,6 +21,7 @@ type FormValues = {
 
 export function LoginSignUpForm() {
   const context = useContext(AppContext);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   if (!context) {
     throw new Error('AppContext null');
   }
@@ -31,18 +32,20 @@ export function LoginSignUpForm() {
 
   const form = useForm<FormValues>({
     mode: 'onTouched',
-    defaultValues: isLoginForm 
-    ? {
-      email: '',
-      password: '',
-    } 
-    : {
-      email: '',
-      password: '',
-      repeatPassword: '',
-    },
-    resolver: yupResolver(isLoginForm ? loginFormScheme : registrationFormScheme) as Resolver<FormValues>,
-  })
+    defaultValues: isLoginForm
+      ? {
+          email: '',
+          password: '',
+        }
+      : {
+          email: '',
+          password: '',
+          repeatPassword: '',
+        },
+    resolver: yupResolver(
+      isLoginForm ? loginFormScheme : registrationFormScheme
+    ) as Resolver<FormValues>,
+  });
 
   const {
     register,
@@ -69,16 +72,22 @@ export function LoginSignUpForm() {
         ).unwrap();
         console.log('Успешная регистрация', result);
         context.setIsLoginForm(true);
-      };
+      }
 
       if (result?.token && result?.user) {
         console.log(result.user, result.token);
         sessionStorage.setItem('authToken', result.token);
         dispatch(userSliceActions.setUser(result.user));
+        setErrorMessage(null);
         setIsModalOpen(false);
-      };
+      } else {
+        setErrorMessage(result?.message || 'Что-то пошло не так');
+      }
     } catch (error) {
-      console.error('Ошибка регистрации:', error);
+      console.error('Ошибка', error);
+      setErrorMessage(
+        typeof error === 'string' ? error : 'Что-то пошло не так'
+      );
       return;
     }
   };
@@ -121,6 +130,7 @@ export function LoginSignUpForm() {
         text={isLoginForm ? 'Войти' : 'Зарегистрироваться'}
         btnColor={buttonColors.purple}
       />
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </StyledForm>
   );
 }
@@ -135,6 +145,10 @@ const InputsWrap = styled.div`
 `;
 
 const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 100%;
   width: 100%;
   color: var(--color-dark);
@@ -153,4 +167,9 @@ const SwitchFormButton = styled.button`
   &:hover {
     color: var(--color-purple-light);
   }
+`;
+
+const ErrorMessage = styled.span`
+  text-align: center;
+  color: var(--color-red);
 `;

@@ -27,8 +27,8 @@ const registration = createAsyncThunk(
       
       return await response.json();
     } catch (e) {
-      console.log(`Ошибка регистрации, ${String(e)}`);
-      return rejectWithValue(`Ошибка регистрации, ${String(e)}`);
+      console.log(`Ошибка, ${String(e)}`);
+      return rejectWithValue(`Ошибка, ${String(e)}`);
     }
   }
 );

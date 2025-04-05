@@ -12,9 +12,14 @@ import IWish from '../5_entities/Wish/model/IWish';
 import { useNavigate, useParams } from 'react-router-dom';
 import getwishList from '../5_entities/Wish/getWishList';
 import useGetFriend from '../5_entities/hooks/useGetFriend';
-import MyWishRow from '../3_widgets/items/MyWishRow';
 import store from '../5_entities/store';
 import Loader from '../6_shared/ui/Loader';
+import ListContainer from '../6_shared/ui/list/ListContainer';
+import { useAppDispatch } from '../5_entities/hooks/useAppDispatch';
+import { useAppSelector } from '../5_entities/hooks/useAppSelector';
+import updateUser from '../5_entities/User/asyncActions/updateUser';
+import FriendWishRow from '../3_widgets/items/FriendWishRow';
+import Modal from '../3_widgets/modals/Modal';
 
 export default function Friend() {
   console.log('Рендер Friend начался');
@@ -22,9 +27,12 @@ export default function Friend() {
   const [itemList, setItemList] = useState<IWish[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isMyFriend, setIsMyFriend] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const { user, loading } = useGetFriend({ idFromParams: id || '' });
+  const owner = useAppSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     // console.log('useEffect в Friend сработал', user);
@@ -46,7 +54,7 @@ export default function Friend() {
           .catch((err) => console.error('Ошибка в getwishList:', err));
       }, 0.01);
     }
-  }, [user]);
+  }, [user, owner]);
 
   if (!id) {
     navigate('/');
@@ -61,7 +69,7 @@ export default function Friend() {
         </PageWrapper>
       </ContentContainer>
     );
-  };
+  }
 
   if (!user) {
     console.error('Пользователь не загружен');
@@ -78,82 +86,92 @@ export default function Friend() {
     currentPage * itemsPerPage
   );
 
+  const onClickAddFriend = () => {
+    if (!owner || !id) return;
+
+    const updatedFriends = [...(owner.friends || []), id];
+    dispatch(updateUser({ friends: updatedFriends }))
+      .unwrap()
+      .then(() => {
+        setIsMyFriend(true);
+        console.log('Друг добавлен');
+      })
+      .catch((err) => console.error('Ошибка добавления друга:', err));
+  };
+
   const wishActions = {
-    booking: (wishId: string) => {
-      //   bookWish(wishId);
-      console.log('Забронирован', wishId);
+    booking: () => {
+      setIsModalOpen(true);
     },
+  };
+
+  const onCloseModal = () => {
+    setIsModalOpen(false);
+    console.log('закрыть модалку');
   };
 
   return (
     <ContentContainer>
-      <PageWrapper>
-        <PageHeader>
-          <h1 className="visually-hidden">Страница друга</h1>
-          <FriendWidget name={name ?? login} birthday={birthday} />
-          <Buttons>
-            {isMyFriend ? (
+      <>
+        <PageWrapper>
+          <PageHeader>
+            <h1 className="visually-hidden">Страница друга</h1>
+            <FriendWidget name={name ?? login} birthday={birthday} />
+            <Buttons>
+              {isMyFriend ? (
+                <Button
+                  isLink={false}
+                  btnColor={buttonColors.whiteCancel}
+                  onClick={() => console.log('Удален')}
+                >
+                  Удалить из друзей
+                </Button>
+              ) : (
+                <Button
+                  isLink={false}
+                  btnColor={buttonColors.white}
+                  onClick={onClickAddFriend}
+                >
+                  + Добавить в друзья
+                </Button>
+              )}
               <Button
                 isLink={false}
                 btnColor={buttonColors.whiteCancel}
-                onClick={() => console.log('Удален')}
+                onClick={() => navigate(-1)}
               >
-                Удалить из друзей
+                Назад
               </Button>
-            ) : (
-              <Button
-                isLink={false}
-                btnColor={buttonColors.white}
-                onClick={() => console.log('Добавлен')}
-              >
-                + Добавить в друзья
-              </Button>
-            )}
-            <Button
-              isLink={false}
-              btnColor={buttonColors.whiteCancel}
-              onClick={() => navigate(-1)}
-            >
-              Назад
-            </Button>
-          </Buttons>
-        </PageHeader>
-        <PageBody>
-          {itemList.length > 0 ? (
-            <ListContainer>
-              <ListRenderer
-                itemList={currentItemList}
-                Item={MyWishRow}
-                actions={wishActions}
-              />
-              {itemList.length > itemsPerPage && (
-                <Paging
-                  totalPages={pagesNumber}
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
+            </Buttons>
+          </PageHeader>
+          <PageBody>
+            {itemList.length > 0 ? (
+              <ListContainer>
+                <ListRenderer
+                  itemList={currentItemList}
+                  Item={FriendWishRow}
+                  actions={wishActions}
                 />
-              )}
-            </ListContainer>
-          ) : (
-            <EmptyListMessage />
-          )}
-        </PageBody>
-      </PageWrapper>
+                {itemList.length > itemsPerPage && (
+                  <Paging
+                    totalPages={pagesNumber}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                  />
+                )}
+              </ListContainer>
+            ) : (
+              <EmptyListMessage />
+            )}
+          </PageBody>
+        </PageWrapper>
+        <Modal isActive={isModalOpen} closeModal={onCloseModal}>
+          <Loader text={'Этот функционал в разработке'} />
+        </Modal>
+      </>
     </ContentContainer>
   );
 }
-
-const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-
-  gap: 30px;
-
-  width: 100%;
-  height: 100%;
-`;
 
 const PageHeader = styled.div`
   display: flex;

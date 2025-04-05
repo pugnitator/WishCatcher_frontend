@@ -10,6 +10,7 @@ export const buttonColors = {
   white: { color: 'var(--color-purple)', bg: 'var(--color-light)' },
   whiteCancel: { color: 'var(--color-red)', bg: 'var(--color-light)' },
   yellow: { color: 'var(--color-purple)', bg: 'var(--color-yellow)' },
+  red: { color: 'var(--color-light)', bg: 'var(--color-red)' },
   transparent: { color: 'transparent', bg: 'transparent' },
 };
 
