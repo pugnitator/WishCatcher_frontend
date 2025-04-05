@@ -14,10 +14,10 @@ import getwishList from '../5_entities/Wish/getWishList';
 import useGetFriend from '../5_entities/hooks/useGetFriend';
 import MyWishRow from '../3_widgets/items/MyWishRow';
 import store from '../5_entities/store';
+import Loader from '../6_shared/ui/Loader';
 
 export default function Friend() {
   console.log('Рендер Friend начался');
-  // console.log('state', currentUser);
 
   const [itemList, setItemList] = useState<IWish[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -54,8 +54,14 @@ export default function Friend() {
   }
 
   if (loading) {
-    return <div>Загрузка...</div>;
-  }
+    return (
+      <ContentContainer>
+        <PageWrapper>
+          <Loader />;
+        </PageWrapper>
+      </ContentContainer>
+    );
+  };
 
   if (!user) {
     console.error('Пользователь не загружен');

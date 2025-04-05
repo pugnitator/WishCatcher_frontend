@@ -11,6 +11,7 @@ import GivingToFriends from '../../2_pages/GivingToFriends';
 import CreateWish from '../../2_pages/CreateWish';
 import Friend from '../../2_pages/Friend';
 import MyAccount from '../../2_pages/MyAccount';
+import LoaderPage from '../../2_pages/LoaderPage';
 
 export default function MainLayout() {
   console.log('Я в мэйн лэйауте');
@@ -22,6 +23,7 @@ export default function MainLayout() {
       <Header /> 
       <Routes>
         <Route path="/" element={isUserLogin ? <Navigate to='/my-wishes' /> : <Home />} />
+        <Route path="/loader" element={isUserLogin ? <LoaderPage /> : <Home />} />
         <Route path="/my-wishes" element={isUserLogin ? <MyWishes /> : <Navigate to='/' />} />
         <Route path="/my-profile" element={isUserLogin ? <MyAccount /> : <Navigate to='/' />} />
         <Route path="/create-wish" element={isUserLogin ? <CreateWish /> : <Navigate to='/' />} />
