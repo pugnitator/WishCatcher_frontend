@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 import Logo from '../6_shared/ui/Logo';
 import MenuItem from '../6_shared/ui/menu/MenuItem';
-import { useSelector } from 'react-redux';
-import { RootState } from '../5_entities/store';
-import { UserAction } from '../4_features/ui/UserAction';
-import Button from '../6_shared/ui/Buttons/Button';
+import { UserActions } from '../4_features/ui/UserAction'
+import Button from '../6_shared/ui/buttons/Button';
 import { useContext } from 'react';
 import Modal from './modals/Modal';
-import { buttonColors } from '../6_shared/ui/Buttons/Button';
+import { buttonColors } from '../6_shared/ui/buttons/Button';
 import { AppContext } from '../1_app/App';
-import { LoginSignUpForm } from './LoginSignUpForm';
+import { LoginSignUpForm } from './form/LoginSignUpForm';
+import ContentContainer from '../6_shared/ui/ContentContainer';
+import store from '../5_entities/store';
 
 export default function Header() {
   const context = useContext(AppContext);
@@ -17,74 +17,80 @@ export default function Header() {
     throw new Error('AppContext null');
   }
 
-  const { isModalActive, setIsModalActive, setIsLoginForm } = context;
-  const isUserLogin = useSelector((state: RootState) => state.user.isLogin);
-  // const isUserLogin = true;
-  console.log('isUserLogin', isUserLogin)
+  const { isModalOpen, setIsModalOpen, setIsLoginForm } = context;
+  const isUserLogin = Boolean(store.getState().user.currentUser);
 
   const openModal = (type: boolean) => {
     setIsLoginForm(type);
-    setIsModalActive(true);
+    setIsModalOpen(true);
     console.log('открыть модалку');
   };
 
   const onCloseModal = () => {
     setIsLoginForm(null);
-    setIsModalActive(false);
+    setIsModalOpen(false);
     console.log('закрыть модалку');
   };
 
   return (
-    <HeaderContainer>
-      <Logo />
-      {isUserLogin && (
-        <>
-          <nav>
-            <Menu>
-              <MenuItem text="Мой вишлист" path="/MyWishes" />
-              <MenuItem text="Друзья" path="/Friends" />
-              <MenuItem text="Дарю друзьям" path="/GivingToFriends" />
-            </Menu>
-          </nav>
-          <UserAction />
-        </>
-      )}
-      {!isUserLogin && (
-        <LoginSignUpMenu>
-          <LoginButton
-            isLink={false}
-            text="Войти"
-            onClick={() => openModal(true)}
-            btnColor={buttonColors.white}
-          />
-          <SignUpButton
-            isLink={false}
-            text="Зарегистрироваться"
-            onClick={() => openModal(false)}
-            btnColor={buttonColors.white}
-          />
-        </LoginSignUpMenu>
-      )}
-
-        <Modal
-          isActive={isModalActive}
-          closeModal={onCloseModal}
-          children={LoginSignUpForm()}
-        />
-    </HeaderContainer>
+    <HeaderWrapper>
+      <ContentContainer>
+        <HeaderContainer>
+          <Logo />
+          {isUserLogin && (
+            <>
+              <nav>
+                <Menu>
+                  <MenuItem text="Мой вишлист" path="/my-wishes" />
+                  <MenuItem text="Друзья" path="/friends" />
+                  <MenuItem text="Дарю друзьям" path="/giving-to-friends" />
+                </Menu>
+              </nav>
+              <UserActions />
+            </>
+          )}
+          {!isUserLogin && (
+            <LoginSignUpMenu>
+              <LoginButton
+                isLink={false}
+                text="Войти"
+                onClick={() => openModal(true)}
+                btnColor={buttonColors.white}
+              />
+              <SignUpButton
+                isLink={false}
+                text="Зарегистрироваться"
+                onClick={() => openModal(false)}
+                btnColor={buttonColors.white}
+              />
+            </LoginSignUpMenu>
+          )}
+          <Modal isActive={isModalOpen} closeModal={onCloseModal}>
+            <LoginSignUpForm />
+          </Modal>
+        </HeaderContainer>
+      </ContentContainer>
+    </HeaderWrapper>
   );
 }
+
+const HeaderWrapper = styled.header`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+
+  padding: 10px 0;
+
+  background-color: var(--color-light);
+  color: var(--color-purple);
+`;
 
 const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  height: 80px;
-  padding-inline: var(--padding-inline);
-
-  background-color: var(--color-light);
-  color: var(--color-purple);
   font-weight: 700;
 `;
 

@@ -1,19 +1,24 @@
 import styled from "styled-components";
-import theme from "../1_app/ui/Theme";
 
-export default function Footer() {
+interface FooterProp {
+    isUserLogin: boolean;
+}
+
+export default function Footer({isUserLogin} : FooterProp) {
+
+    console.log('footer', isUserLogin);
     const date = new Date();
     return(
-        <StyledFooter>
+        <StyledFooter isUserLogin={isUserLogin}>
             ©{date.getFullYear()}
         </StyledFooter>
     )
 };
 
-const StyledFooter = styled.footer`
+const StyledFooter = styled.footer<FooterProp>`
     text-align: center;
     padding: 0 0 20px 0;
-    color: ${theme.colorPurpleLigth};
+    color: ${props => props.isUserLogin ? 'var(--color-light)' : 'var(--color-purple-light)'};
     font-weight: 600;
-    max-width: 100vw;
-`
+    width: 100%;
+`;

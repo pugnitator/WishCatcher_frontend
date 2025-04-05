@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import { UseFormRegister } from 'react-hook-form';
 
-interface FornInputProp {
+interface FormInputProp {
   register: ReturnType<UseFormRegister<any>>;
   title: string;
   placeholder: string;
   type?: string;
   errorMessage?: string;
+  disabled?: boolean;
 }
 
 export default function FormInput({
@@ -15,11 +16,12 @@ export default function FormInput({
   placeholder,
   type,
   errorMessage,
-}: FornInputProp) {
+  disabled,
+}: FormInputProp) {
   return (
     <Container>
       <label>{title}</label>
-      <StyledInput {...register} type={type ?? 'text'} placeholder={placeholder} />
+      <StyledInput {...register} type={type ?? 'text'} placeholder={placeholder} disabled={disabled}/>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </Container>
   );
@@ -37,7 +39,7 @@ const Container = styled.div`
 
 const StyledInput = styled.input`
   background-color: var(--color-light);
-  border-radius: var(--border-radius);
+  opacity: ${props => props.disabled ? '60%' : '100%'};
 `;
 
 const ErrorMessage = styled.p`

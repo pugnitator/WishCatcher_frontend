@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { SyntheticEvent, useContext } from 'react';
 import { createPortal } from 'react-dom';
-import CloseButton from '../../6_shared/ui/Buttons/CloseButton';
+import CloseButton from '../../6_shared/ui/buttons/CloseButton';
 import { AppContext } from '../../1_app/App';
 
 interface ModalProp {
@@ -26,16 +26,17 @@ export default function Modal({ isActive, closeModal, children }: ModalProp) {
 }
 
 const ModalConteiner = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   top: 0;
   left: 0;
   transition: 0.5;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
 `;
 
 const ModalContent = styled.div`
