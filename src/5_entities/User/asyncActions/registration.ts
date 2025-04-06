@@ -9,7 +9,7 @@ const registration = createAsyncThunk(
   '/registration',
   async ({ login, password }: RegistrationProp, { rejectWithValue }) => {
     try {
-      const response = await fetch('http://localhost:3000/registration', {
+      const response = await fetch('/api/registration', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -18,7 +18,6 @@ const registration = createAsyncThunk(
       });
 
       if (!response.ok) {
-        console.log('Aщибка');
         const error = await response.json();
         return rejectWithValue(
           `Ошибка регистрации: ${error.message || 'Неизвестная ошибка'}`
@@ -27,7 +26,6 @@ const registration = createAsyncThunk(
       
       return await response.json();
     } catch (e) {
-      console.log(`Ошибка, ${String(e)}`);
       return rejectWithValue(`Ошибка, ${String(e)}`);
     }
   }

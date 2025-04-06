@@ -41,7 +41,6 @@ export default function Button(prop: ButtonProp) {
   const { color, bg } = btnColor;
 
   const onClickButton = () => {
-    console.log('куку');
     onClick?.();
   }
 

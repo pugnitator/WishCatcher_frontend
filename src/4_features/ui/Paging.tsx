@@ -21,7 +21,6 @@ export default function Paging({
   };
 
   const onClickNext = () => {
-    console.log('Next', )
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }

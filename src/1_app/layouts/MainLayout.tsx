@@ -14,10 +14,8 @@ import MyAccount from '../../2_pages/MyAccount';
 import LoaderPage from '../../2_pages/LoaderPage';
 
 export default function MainLayout() {
-  console.log('Я в мэйн лэйауте');
   
   const isUserLogin = useSelector((state: RootState) => state.user.isLogin);
-  console.log(isUserLogin);
   return (
     <Layout isLogin={isUserLogin}>
       <Header /> 

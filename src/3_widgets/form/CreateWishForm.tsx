@@ -30,13 +30,10 @@ export default function CreateWishForm({ onSuccess }: CreateWishFormProps) {
   } = form;
 
   const onSubmit = async (data: FormValues) => {
-    console.log('---CreateWish---', data);
     try {
       const newWish = await createWish({ ...data });
-      console.log('Виш успешно создан:', newWish);
       onSuccess(newWish);
     } catch (e) {
-      console.log('Ошибка создания виша', e);
     }
   };
 

@@ -11,7 +11,6 @@ interface ModalProp {
 }
 
 export default function Modal({ isActive, closeModal, children }: ModalProp) {
-  console.log('в модалке', isActive);
   if (!isActive) return null;
 
   return createPortal(

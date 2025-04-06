@@ -6,7 +6,6 @@ interface FooterProp {
 
 export default function Footer({isUserLogin} : FooterProp) {
 
-    console.log('footer', isUserLogin);
     const date = new Date();
     return(
         <StyledFooter isUserLogin={isUserLogin}>

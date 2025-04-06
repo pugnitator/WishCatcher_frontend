@@ -59,23 +59,19 @@ export function LoginSignUpForm() {
 
   const onSubmit = async (data: any) => {
     const { email, password } = data;
-    console.log(email, password);
     try {
       let result;
 
       if (isLoginForm) {
         result = await dispatch(login({ login: email, password })).unwrap();
-        console.log('Токен', result.token);
       } else {
         result = await dispatch(
           registration({ login: email, password })
         ).unwrap();
-        console.log('Успешная регистрация', result);
         context.setIsLoginForm(true);
       }
 
       if (result?.token && result?.user) {
-        console.log(result.user, result.token);
         sessionStorage.setItem('authToken', result.token);
         dispatch(userSliceActions.setUser(result.user));
         setErrorMessage(null);
