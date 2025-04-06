@@ -40,7 +40,6 @@ function App() {
   useEffect(() => {
     checkToken().then((user) => {
       if (user) {
-        console.log(user);
         dispatch(userSliceActions.setUser(user));
         fetchWishes();
       }

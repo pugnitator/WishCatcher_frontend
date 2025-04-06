@@ -20,9 +20,9 @@ import { useAppSelector } from '../5_entities/hooks/useAppSelector';
 import updateUser from '../5_entities/User/asyncActions/updateUser';
 import FriendWishRow from '../3_widgets/items/FriendWishRow';
 import Modal from '../3_widgets/modals/Modal';
+import { deleteFriend } from '../5_entities/friendsApi/deleteFriend';
 
 export default function Friend() {
-  console.log('Рендер Friend начался');
 
   const [itemList, setItemList] = useState<IWish[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,7 +35,6 @@ export default function Friend() {
   const owner = useAppSelector((state) => state.user.currentUser);
 
   useEffect(() => {
-    // console.log('useEffect в Friend сработал', user);
     if (user) {
       const currentUser = store.getState();
       setIsMyFriend(
@@ -46,7 +45,6 @@ export default function Friend() {
       setTimeout(() => {
         getwishList(user.id)
           .then((res) => {
-            // console.log('список подарков друга', res);
             if (Array.isArray(res)) {
               setItemList(res);
             }
@@ -94,10 +92,14 @@ export default function Friend() {
       .unwrap()
       .then(() => {
         setIsMyFriend(true);
-        console.log('Друг добавлен');
       })
       .catch((err) => console.error('Ошибка добавления друга:', err));
   };
+
+  const onClickDelete = () => {
+    deleteFriend(id);
+    setIsMyFriend(false);
+  }
 
   const wishActions = {
     booking: () => {
@@ -107,7 +109,6 @@ export default function Friend() {
 
   const onCloseModal = () => {
     setIsModalOpen(false);
-    console.log('закрыть модалку');
   };
 
   return (
@@ -122,7 +123,7 @@ export default function Friend() {
                 <Button
                   isLink={false}
                   btnColor={buttonColors.whiteCancel}
-                  onClick={() => console.log('Удален')}
+                  onClick={onClickDelete}
                 >
                   Удалить из друзей
                 </Button>

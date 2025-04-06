@@ -24,7 +24,6 @@ export default function CreateWish() {
   };
 
   const handleWishCreated = (wish: IWish) => {
-    console.log('---СОЗДАЮ ВИШ---', [wishes, wish]);
     setWishes([...wishes, wish]);
     navigate('/my-wishes', { state: { refresh: true } });
   };

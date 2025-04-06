@@ -23,13 +23,11 @@ export default function Header() {
   const openModal = (type: boolean) => {
     setIsLoginForm(type);
     setIsModalOpen(true);
-    console.log('открыть модалку');
   };
 
   const onCloseModal = () => {
     setIsLoginForm(null);
     setIsModalOpen(false);
-    console.log('закрыть модалку');
   };
 
   return (

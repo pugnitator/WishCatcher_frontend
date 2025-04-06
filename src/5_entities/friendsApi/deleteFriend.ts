@@ -5,7 +5,7 @@ export const deleteFriend = async (friendId: string) => {
       console.error('Пользователь не авторизован');
       return null;
     }
-    const response = await fetch(`http://localhost:3000/deleteFriend/${friendId}`, {
+    const response = await fetch(`/api/deleteFriend/${friendId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
     });

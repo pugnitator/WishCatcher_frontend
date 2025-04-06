@@ -11,9 +11,8 @@ const updateUser = createAsyncThunk(
   async (editedUser: UpdateUserProp, { rejectWithValue }) => {
     const token = sessionStorage.getItem('authToken');
 
-    console.log('Отредактированный юзер', editedUser);
     try {
-      const response = await fetch(`http://localhost:3000/updateUser`, {
+      const response = await fetch(`/api/updateUser`, {
         method: 'PUT',
         body: JSON.stringify(editedUser),
         headers: {

@@ -11,7 +11,7 @@ interface CreateWishProp {
         console.error("Пользователь не авторизован");
         return null;
       }
-      const response = await fetch('http://localhost:3000/wish/create', {
+      const response = await fetch('/api/wish/create', {
         method: 'POST',
         body: JSON.stringify(wish),
         headers: {
@@ -23,7 +23,6 @@ interface CreateWishProp {
       if (!response.ok) throw new Error('Ошибка запроса');
 
       const data = await response.json();
-      console.log('wihses', data.wish);
 
       return data.wish;
     } catch (e) {

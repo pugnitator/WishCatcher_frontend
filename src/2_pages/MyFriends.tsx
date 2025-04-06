@@ -24,7 +24,6 @@ export default function MyFriends() {
     setTimeout(() => {
       getMyFriends().then((res) => {
         if (Array.isArray(res)) {
-          console.log('список друзей', res)
           setItemList(res);
         }
       });
@@ -47,7 +46,6 @@ export default function MyFriends() {
       );
     },
     open: (friendId: string) => {
-      console.log('---NAVIGATE FRIEND---', friendId, new Date().toISOString());
       navigate(`/friend/${friendId}`);
     },
   };

@@ -11,8 +11,6 @@ const userSlice = createSlice({
     setUser(state, action) {
       state.isLogin = true;
       state.currentUser = action.payload;
-      console.log(action.payload);
-      console.log(state);
     },
     removeUser(state) {
       state.isLogin = false;

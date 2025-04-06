@@ -17,7 +17,6 @@ interface MyFriendRowProps {
 
 function MyFriendRow({ data, actions }: MyFriendRowProps) {
   const { id, name, login } = data;
-  console.log('friendData', data, id);
 
   return (
     <ListItemWrapper>

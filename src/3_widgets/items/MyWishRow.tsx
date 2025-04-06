@@ -11,7 +11,6 @@ interface MyWishRowProps {
 
 export default function MyWishRow({data, actions}: MyWishRowProps) {
   const { id, name } = data;
-  console.log('wishData', data, id);
 
   return (
     <ListItemWrapper>

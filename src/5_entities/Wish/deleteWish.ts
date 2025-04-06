@@ -6,9 +6,7 @@ const deleteWish = async (wishId: string) => {
       return null;
     }
 
-    console.log('wishId', wishId, typeof wishId);
-
-    const response = await fetch(`http://localhost:3000/wish/${wishId}`, {
+    const response = await fetch(`/api/wish/${wishId}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     });

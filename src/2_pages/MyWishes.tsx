@@ -60,7 +60,6 @@ export default function MyWishes() {
 
   const onCloseModal = () => {
     setIsModalOpen(false);
-    console.log('закрыть модалку');
   };
 
   return (

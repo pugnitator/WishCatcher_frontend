@@ -5,7 +5,7 @@ export const getMyFriends = async () => {
         console.error("Пользователь не авторизован");
         return null;
       }
-      const response = await fetch('http://localhost:3000/friends', {
+      const response = await fetch('/api/friends', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -16,7 +16,6 @@ export const getMyFriends = async () => {
       if (!response.ok) throw new Error('Ошибка запроса');
   
       const wishes = await response.json();
-      console.log('friends', wishes);
   
       return wishes;
     } catch (e) {

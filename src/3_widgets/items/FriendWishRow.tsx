@@ -11,7 +11,6 @@ interface FriendWishRowProps {
 
 export default function FriendWishRow({data, actions}: FriendWishRowProps) {
   const { id, name } = data;
-  console.log('wishData', data, id);
 
   return (
     <ListItemWrapper>

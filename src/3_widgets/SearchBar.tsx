@@ -19,7 +19,6 @@ export default function SearchBar({
   const [value, setValue] = useState('');
 
   const handleSearch = () => {
-    console.log('Начинаем поиск', value);
     if (value) {
       onSearch(value);
     }
